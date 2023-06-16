@@ -2,7 +2,7 @@ import argparse
 from urllib.parse import urlparse, parse_qs
 
 # 这个函数用于从URL中提取出参数
-def extract_parameters(url):
+def EXTRACT_PARAMETERS(url):
     # 解析URL
     parsed_url = urlparse(url)
     # 提取URL的参数部分
@@ -20,17 +20,17 @@ def extract_parameters(url):
 
 # 从URL中提取app_token
 def GET_APPTOKEN_FROM_URL(url):
-    app_token, _, _ = extract_parameters(url)
+    app_token, _, _ = EXTRACT_PARAMETERS(url)
     return app_token
 
 # 从URL中提取table_id
 def GET_TABLEID_FROM_URL(url):
-    _, table_id, _ = extract_parameters(url)
+    _, table_id, _ = EXTRACT_PARAMETERS(url)
     return table_id
 
 # 从URL中提取view_id
 def GET_VIEWID_FROM_URL(url):
-    _, _, view_id = extract_parameters(url)
+    _, _, view_id = EXTRACT_PARAMETERS(url)
     return view_id
 
 # 主函数
@@ -43,7 +43,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # 从URL中提取app_token, table_id, view_id
-    app_token, table_id, view_id = extract_parameters(args.url)
+    app_token, table_id, view_id = EXTRACT_PARAMETERS(args.url)
 
     # 打印提取出的app_token, table_id, view_id
     print(f"app_token: {app_token}")

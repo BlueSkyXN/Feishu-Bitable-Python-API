@@ -1,6 +1,6 @@
 import argparse
 import configparser
-from GET_TABLEID import GET_TABLE_ID
+from GET_TABLE_ID import GET_TABLE_ID
 
 # 这个函数用于将从GET_TABLE_ID获取的table_id写入到配置文件
 def WRITE_TABLE_ID(name):

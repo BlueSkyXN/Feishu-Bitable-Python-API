@@ -6,7 +6,7 @@ import argparse
 def GET_RECORD(app_token=None, table_id=None, record_id=None, user_access_token=None):
     # 读取配置文件
     config = configparser.ConfigParser()
-    config.read('feishu-config.ini')
+    config.read('feishu-config.ini', encoding='utf-8')
 
     # 如果参数为空，则使用配置文件中的默认值
     if not app_token:
@@ -29,7 +29,7 @@ def GET_RECORD(app_token=None, table_id=None, record_id=None, user_access_token=
     response = requests.get(url, headers=headers)
     return response.json()
 
-if __name__ == "__main__":
+def GET_RECORD_CMD():
     # 解析命令行参数
     parser = argparse.ArgumentParser()
     parser.add_argument('--app_token', help='app token')
@@ -41,3 +41,6 @@ if __name__ == "__main__":
     # 调用封装的函数，使用命令行参数或默认值
     response_body = GET_RECORD(args.app_token, args.table_id, args.record_id, args.user_access_token)
     print(json.dumps(response_body, indent=4))
+
+if __name__ == "__main__":
+    GET_RECORD_CMD()  # 调用封装的CMD函数

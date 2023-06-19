@@ -3,10 +3,18 @@ import configparser
 from LIST_RECORDS import LIST_RECORDS
 
 # 从给定的响应中获取具有特定字段值的记录的ID
-def GET_RECORD_ID(response, field_name, value):
+def GET_RECORD_ID(field_value, field_name='key', config_file='feishu-config.ini'):
+    # 读取配置文件获取字段名
+    config = configparser.ConfigParser()
+    config.read(config_file, encoding='utf-8')
+    field_name = config.get('LIST_RECORDS', field_name, fallback=None)
+
+    # 调用LIST_RECORDS函数获取所有记录的信息
+    response = LIST_RECORDS()
+
     # 在返回的所有记录信息中，寻找字段值匹配的记录
     for item in response["data"]["items"]:
-        if item["fields"].get(field_name) == value:
+        if item["fields"].get(field_name) == field_value:
             return item["record_id"]
 
     return "NONE"  # 如果没有找到字段值匹配的记录，返回"NONE"
@@ -27,16 +35,8 @@ def GET_RECORD_ID_CMD():
         print("错误：未提供字段值，请使用'-v/--value'或'-i/--input'参数提供字段值。")
         return
 
-    # 读取配置文件获取字段名
-    config = configparser.ConfigParser()
-    config.read('feishu-config.ini')
-    field_name = config.get('LIST_RECORDS', 'key', fallback=None)
-
-    # 调用LIST_RECORDS函数获取所有记录的信息
-    response = LIST_RECORDS()
-
     # 调用GET_RECORD_ID函数获取记录的ID
-    record_id = GET_RECORD_ID(response, field_name, field_value)
+    record_id = GET_RECORD_ID(field_value)
     print(record_id)  # 打印记录的ID
 
 

@@ -2,6 +2,7 @@ import argparse
 import configparser
 from GET_VIEW_ID import GET_VIEW_ID
 
+# 检索视图并写入配置文件
 # 这个函数用于将从GET_VIEW_ID获取的view_id写入到配置文件
 def WRITE_VIEW_ID(view_name):
     config = configparser.ConfigParser()  # 创建一个ConfigParser对象

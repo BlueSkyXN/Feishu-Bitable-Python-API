@@ -3,6 +3,8 @@ import configparser
 import json
 import argparse
 
+
+# 列出视图
 # 此函数用于获取数据表的所有视图，接收四个可选参数
 def LIST_VIEWS(app_token=None, table_id=None, user_access_token=None, page_token=None, page_size=None):
     # 读取配置文件

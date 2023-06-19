@@ -3,7 +3,7 @@ import configparser
 import json
 import argparse
 
-
+# 列出记录
 def LIST_RECORDS(app_token=None, table_id=None, page_token=None, page_size=None):
     # 读取配置文件
     config = configparser.ConfigParser()
@@ -13,7 +13,7 @@ def LIST_RECORDS(app_token=None, table_id=None, page_token=None, page_size=None)
     if not app_token:
         app_token = config.get('TOKEN', 'app_token')
     if not table_id:
-        table_id = config.get('LIST_RECORDS', 'table_id')
+        table_id = config.get('ID', 'table_id')
     if not page_token:
         page_token = config.get('LIST_RECORDS', 'page_token', fallback=None)
     if not page_size:

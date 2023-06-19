@@ -1,6 +1,7 @@
 import argparse
 from LIST_VIEWS import LIST_VIEWS
 
+# 检索视图
 # 此函数用于通过给定的名称获取视图的ID
 def GET_VIEW_ID(view_name="默认视图"):
     response = LIST_VIEWS()  # 调用LIST_VIEWS函数获取所有视图的信息

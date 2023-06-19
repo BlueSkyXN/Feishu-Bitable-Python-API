@@ -1,4 +1,5 @@
 import argparse
+import sys
 from urllib.parse import urlparse, parse_qs
 
 # 这个函数用于从URL中提取出参数
@@ -37,13 +38,22 @@ def GET_VIEWID_FROM_URL(url):
 if __name__ == "__main__":
     # 解析命令行参数
     parser = argparse.ArgumentParser()
-    # 添加一个名为url的参数，该参数为必需，其作用是提供用于提取参数的URL
-    parser.add_argument('-u', '--url', required=True, help='用于提取参数的URL')
+    # 添加一个名为url的参数，该参数为可选，其作用是提供用于提取参数的URL
+    parser.add_argument('-u', '--url', default=None, help='用于提取参数的URL')
+    # 添加一个名为input的参数，该参数也为可选，其作用是提供用于提取参数的URL
+    parser.add_argument('-i', '--input', default=None, help='用于提取参数的URL')
     # 解析命令行参数
     args = parser.parse_args()
 
+    # 检查'-u/--url'和'-i/--input'参数，优先使用'-u/--url'
+    url = args.url if args.url is not None else args.input
+
+    if url is None:  # 如果没有提供URL，打印错误信息并退出
+        print("错误：未提供URL，请使用'-u/--url'或'-i/--input'参数提供URL。")
+        sys.exit()
+
     # 从URL中提取app_token, table_id, view_id
-    app_token, table_id, view_id = EXTRACT_PARAMETERS(args.url)
+    app_token, table_id, view_id = EXTRACT_PARAMETERS(url)
 
     # 打印提取出的app_token, table_id, view_id
     print(f"app_token: {app_token}")

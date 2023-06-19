@@ -50,12 +50,22 @@ def WRITE_INFO_FROM_URL(url):
 def WRITE_INFO_FROM_URL_CMD():
     # 创建一个argparse对象，用于解析命令行参数
     parser = argparse.ArgumentParser()
-    # 添加一个命名为'-u'或'--url'的参数，该参数是必需的，作用是提供一个URL以供提取token
-    parser.add_argument('-u', '--url', required=True, help='用于提取令牌的URL')
+    # 添加一个命名为'-u'或'--url'的参数，该参数是可选的，作用是提供一个URL以供提取token
+    parser.add_argument('-u', '--url', default=None, help='用于提取令牌的URL')
+    # 添加一个命名为'-i'或'--input'的参数，该参数是可选的，作用是提供一个URL以供提取token
+    parser.add_argument('-i', '--input', default=None, help='用于提取令牌的URL')
     # 解析命令行参数
     args = parser.parse_args()
+
+    # 检查'-u/--url'和'-i/--input'参数，优先使用'-u/--url'
+    url = args.url if args.url is not None else args.input
+
+    if url is None:  # 如果没有提供URL，则打印错误信息并退出
+        print("错误：未提供URL，请使用'-u/--url'或'-i/--input'参数提供URL。")
+        return
+
     # 调用WRITE_INFO_FROM_URL函数，将从URL中提取的token写入到配置文件中
-    result = WRITE_INFO_FROM_URL(args.url)
+    result = WRITE_INFO_FROM_URL(url)
 
     # 检查WRITE_INFO_FROM_URL函数的返回结果
     if result is None:  # 如果返回None，打印错误信息
@@ -66,6 +76,7 @@ def WRITE_INFO_FROM_URL_CMD():
         print(f"table_id: {table_id}")
         print(f"view_id: {view_id}")
         print("成功写入 'feishu-config.ini' 文件")
+
 
 
 # 主函数

@@ -37,12 +37,22 @@ def WRITE_TABLE_ID(name):
 def WRITE_TABLE_ID_CMD():
     # 创建一个argparse对象，用于解析命令行参数
     parser = argparse.ArgumentParser()
-    # 添加一个命名为'-n'或'--name'的参数，该参数是必需的，作用是提供一个数据表的名称
-    parser.add_argument('-n', '--name', required=True, help='数据表的名称')
+    # 添加一个命名为'-n'或'--name'的参数，该参数是可选的，作用是提供一个数据表的名称
+    parser.add_argument('-n', '--name', default=None, help='数据表的名称')
+    # 添加一个命名为'-i'或'--input'的参数，该参数是可选的，作用是提供一个数据表的名称
+    parser.add_argument('-i', '--input', default=None, help='数据表的名称')
     # 解析命令行参数
     args = parser.parse_args()
+
+    # 检查'-n/--name'和'-i/--input'参数，优先使用'-n/--name'
+    table_name = args.name if args.name is not None else args.input
+
+    if table_name is None:  # 如果没有提供数据表名称，则打印错误信息并退出
+        print("错误：未提供数据表名称，请使用'-n/--name'或'-i/--input'参数提供数据表名称。")
+        return
+
     # 调用WRITE_TABLE_ID函数，将从数据表名称获取的table_id写入到配置文件中
-    result = WRITE_TABLE_ID(args.name)
+    result = WRITE_TABLE_ID(table_name)
 
     # 检查WRITE_TABLE_ID函数的返回结果
     if result is None:  # 如果返回None，打印错误信息
@@ -50,6 +60,7 @@ def WRITE_TABLE_ID_CMD():
     else:  # 如果返回的不是None，打印提取的值和成功信息
         print(f"table_id: {result}")
         print("成功写入 'feishu-config.ini' 文件")
+
 
 
 # 主函数

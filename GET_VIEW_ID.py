@@ -16,11 +16,22 @@ def GET_VIEW_ID(view_name="默认视图"):
 # 此函数用于解析命令行参数并调用GET_VIEW_ID函数
 def GET_VIEW_ID_CMD():
     parser = argparse.ArgumentParser()  # 创建一个命令行参数解析对象
-    # 添加一个名为'-n'或'--name'的参数，此参数默认值为"默认视图"，用来指定要查询的视图的名称
-    parser.add_argument('-n', '--name', default="表格", help='视图的名字')
+    # 添加一个名为'-n'或'--name'的参数，此参数用来指定要查询的视图的名称
+    parser.add_argument('-n', '--name', default=None, help='视图的名字')
+    # 添加一个名为'-i'或'--input'的参数，此参数也用来指定要查询的视图的名称
+    parser.add_argument('-i', '--input', default=None, help='视图的名字')
     args = parser.parse_args()  # 解析命令行参数
-    view_id = GET_VIEW_ID(args.name)  # 调用GET_VIEW_ID函数获取视图的ID
+
+    # 检查'-n/--name'和'-i/--input'参数，优先使用'-n/--name'
+    view_name = args.name if args.name is not None else args.input
+
+    if view_name is None:  # 如果没有提供视图名称，则打印错误信息并退出
+        print("错误：未提供视图名称，请使用'-n/--name'或'-i/--input'参数提供视图名称。")
+        return
+
+    view_id = GET_VIEW_ID(view_name)  # 调用GET_VIEW_ID函数获取视图的ID
     print(view_id)  # 打印视图的ID
+
 
 # 主函数
 if __name__ == "__main__":

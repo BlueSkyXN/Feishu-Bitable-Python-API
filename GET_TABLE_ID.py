@@ -1,10 +1,10 @@
 import argparse
-from LIST_DATATABLES import LIST_DATATABLES
+from LIST_TABLES import LIST_TABLES
 
 # 检索字段
 # 此函数用于通过给定的名称获取表的ID
 def GET_TABLE_ID(name="数据表"):
-    response = LIST_DATATABLES()  # 调用LIST_DATATABLES函数获取所有数据表的信息
+    response = LIST_TABLES()  # 调用LIST_DATATABLES函数获取所有数据表的信息
 
     # 在返回的所有数据表信息中，寻找名称匹配的数据表
     for item in response["data"]["items"]:

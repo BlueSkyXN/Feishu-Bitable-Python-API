@@ -5,7 +5,7 @@ import argparse
 
 # 列出数据表
 # 封装的列表数据表的函数，接收四个可选参数
-def LIST_DATATABLES(app_token=None, user_access_token=None, page_token=None, page_size=None):
+def LIST_TABLES(app_token=None, user_access_token=None, page_token=None, page_size=None):
     # 读取配置文件
     config = configparser.ConfigParser()
     config.read('feishu-config.ini', encoding='utf-8')
@@ -47,5 +47,5 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # 调用封装的函数，使用命令行参数或默认值
-    response_body = LIST_DATATABLES(args.app_token, args.user_access_token, args.page_token, args.page_size)
+    response_body = LIST_TABLES(args.app_token, args.user_access_token, args.page_token, args.page_size)
     print(json.dumps(response_body, indent=4))

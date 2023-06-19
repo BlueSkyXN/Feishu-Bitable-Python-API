@@ -30,21 +30,23 @@ def WRITE_RECORD_ID_CMD():
     # 解析命令行参数
     parser = argparse.ArgumentParser()
     # 添加第一个参数，此参数用来指定要查询的字段名，有多种命令行输入方式
-    parser.add_argument('-f', '--field', '--field_name', '-n', '--name', default=None, help='字段名')
+    parser.add_argument('-f', '--field', default=None, help='字段名')
+    parser.add_argument('--field_name', default=None, help='字段名')
+    parser.add_argument('-n', '--name', default=None, help='字段名')
+    parser.add_argument('-k', '--key', default=None, help='字段名')
     # 添加第二个参数，此参数用来指定要查询的字段值
     parser.add_argument('-v', '--value', required=True, help='字段值')
     args = parser.parse_args()
 
-    # 按照优先级顺序检查字段名参数的值
-    field_name = args.f if args.f is not None else args.field if args.field is not None else args.field_name if args.field_name is not None else args.n if args.n is not None else args.name
+    # 按照优先级顺序检查字段名参数的值，优先级顺序是 '-f/--field' > '--field_name' > '-n/--name' > '-k/--key'
+    field_name = args.field if args.field is not None else args.field_name if args.field_name is not None else args.name if args.name is not None else args.key
 
     if field_name is None:  # 如果没有提供字段名，则打印错误信息并退出
-        print("错误：未提供字段名，请使用'-f/--field/--field_name/-n/--name'参数提供字段名。")
+        print("错误：未提供字段名，请使用'-f/--field'或'--field_name'或'-n/--name'或'-k/--key'参数提供字段名。")
         return
 
     # 调用WRITE_RECORD_ID函数，将从字段名和字段值获取的record_id写入到配置文件中
     WRITE_RECORD_ID(field_name, args.value)
-
 
 
 # 主函数

@@ -5,7 +5,7 @@ from GET_RECORD_ID import GET_RECORD_ID_CMD
 # 此函数用于将从GET_RECORD_ID_CMD获取的record_id写入到配置文件
 def WRITE_RECORD_ID(value):
     config = configparser.ConfigParser()  # 创建一个ConfigParser对象
-    config.read('feishu-config.ini')  # 读取名为'feishu-config.ini'的配置文件
+    config.read('feishu-config.ini', encoding='utf-8')  # 读取名为'feishu-config.ini'的配置文件
 
     # 尝试从value获取record_id
     try:
@@ -24,7 +24,7 @@ def WRITE_RECORD_ID(value):
 
     # 尝试将新的配置写入到名为'feishu-config.ini'的文件中
     try:
-        with open('feishu-config.ini', 'w') as configfile:
+        with open('feishu-config.ini', 'w', encoding='utf-8') as configfile:
             config.write(configfile)
     except Exception:  # 如果在尝试过程中出现错误，返回None
         return None

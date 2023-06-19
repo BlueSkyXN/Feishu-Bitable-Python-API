@@ -5,7 +5,7 @@ from GET_INFO_FROM_URL import GET_APPTOKEN_FROM_URL, GET_TABLEID_FROM_URL, GET_V
 # 这个函数用于将从URL中提取的信息写入到配置文件
 def WRITE_INFO_FROM_URL(url):
     config = configparser.ConfigParser()  # 创建一个ConfigParser对象
-    config.read('feishu-config.ini')  # 读取名为'feishu-config.ini'的配置文件
+    config.read('feishu-config.ini', encoding='utf-8')  # 读取名为'feishu-config.ini'的配置文件
 
     # 尝试从URL中提取app_token, table_id, view_id
     try:
@@ -38,7 +38,7 @@ def WRITE_INFO_FROM_URL(url):
 
     # 尝试将新的配置写入到名为'feishu-config.ini'的文件中
     try:
-        with open('feishu-config.ini', 'w') as configfile:
+        with open('feishu-config.ini', 'w', encoding='utf-8') as configfile:
             config.write(configfile)
     except Exception:  # 如果在尝试过程中出现错误，返回None
         return None

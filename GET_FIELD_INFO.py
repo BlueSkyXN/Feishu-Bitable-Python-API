@@ -46,7 +46,7 @@ def GET_FIELD_INFO_CMD():
     # 如果没有输入任何参数，使用配置文件中的默认值
     if not args.name and not args.id:
         config = configparser.ConfigParser()
-        config.read('feishu-config.ini')
+        config.read('feishu-config.ini', encoding='utf-8')
         args.name = config.get('LIST_FIELDS', 'field_name', fallback=None)
         args.id = config.get('ID', 'field_id', fallback=None)
 
@@ -56,9 +56,9 @@ def GET_FIELD_INFO_CMD():
 
         # 将找到的字段ID写入配置文件
         config = configparser.ConfigParser()
-        config.read('feishu-config.ini')
+        config.read('feishu-config.ini', encoding='utf-8')
         config.set('ID', 'field_id', result)
-        with open('feishu-config.ini', 'w') as configfile:
+        with open('feishu-config.ini', 'w', encoding='utf-8') as configfile:
             config.write(configfile)
 
     elif args.id:

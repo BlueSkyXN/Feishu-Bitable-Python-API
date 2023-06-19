@@ -8,7 +8,7 @@ import argparse
 def LIST_DATATABLES(app_token=None, user_access_token=None, page_token=None, page_size=None):
     # 读取配置文件
     config = configparser.ConfigParser()
-    config.read('feishu-config.ini')
+    config.read('feishu-config.ini', encoding='utf-8')
 
     # 如果参数为空，则使用配置文件中的默认值
     if not app_token:

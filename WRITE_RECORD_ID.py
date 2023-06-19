@@ -41,9 +41,6 @@ def WRITE_RECORD_ID_CMD():
     # 按照优先级顺序检查字段名参数的值，优先级顺序是 '-f/--field' > '--field_name' > '-n/--name' > '-k/--key'
     field_name = args.field if args.field is not None else args.field_name if args.field_name is not None else args.name if args.name is not None else args.key
 
-    if field_name is None:  # 如果没有提供字段名，则打印错误信息并退出
-        print("错误：未提供字段名，请使用'-f/--field'或'--field_name'或'-n/--name'或'-k/--key'参数提供字段名。")
-        return
 
     # 调用WRITE_RECORD_ID函数，将从字段名和字段值获取的record_id写入到配置文件中
     WRITE_RECORD_ID(field_name, args.value)

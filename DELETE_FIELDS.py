@@ -2,7 +2,7 @@ import requests
 import configparser
 import argparse
 
-def DELETE_FIELD(app_token=None, field_id=None, table_id=None):
+def DELETE_FIELD(app_token=None, table_id=None, field_id=None):
     # 读取配置文件
     config = configparser.ConfigParser()
     config.read('feishu-config.ini', encoding='utf-8')
@@ -15,7 +15,6 @@ def DELETE_FIELD(app_token=None, field_id=None, table_id=None):
         app_token = config.get('TOKEN', 'app_token')
     if not table_id:
         table_id = config.get('ID', 'table_id')
-
     if not field_id:
         field_id = config.get('ID', 'field_id')
 

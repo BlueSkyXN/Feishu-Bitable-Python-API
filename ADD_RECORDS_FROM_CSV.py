@@ -57,16 +57,19 @@ def main():
         print(f"Error in creating table records. Response status code: {response.status_code}")
         response.raise_for_status()
 
-    # 更新field配置文件
-    field_config = configparser.ConfigParser()
-    field_config.read('feishu-field.ini', encoding='utf-8')
-    if "REQUEST_RESPONSE" not in field_config.sections():
-        field_config.add_section("REQUEST_RESPONSE")
-    field_config.set("REQUEST_RESPONSE", "request_body", json.dumps(request_body))
-    field_config.set("REQUEST_RESPONSE", "response_body", response.text)
-    with open('feishu-field.ini', 'w', encoding='utf-8') as field_configfile:
-        field_config.write(field_configfile)
-        print("Request body and response body saved to feishu-field.ini.")
+    ENABLE_ADD_RECORDS = False
+    
+    if ENABLE_ADD_RECORDS:
+        # 更新field配置文件
+        field_config = configparser.ConfigParser()
+        field_config.read('feishu-field.ini', encoding='utf-8')
+        if "ADD_RECORDS_FROM_CSV" not in field_config.sections():
+            field_config.add_section("ADD_RECORDS_FROM_CSV")
+        field_config.set("ADD_RECORDS_FROM_CSV", "request_body", json.dumps(request_body))
+        field_config.set("ADD_RECORDS_FROM_CSV", "response_body", response.text)
+        with open('feishu-field.ini', 'w', encoding='utf-8') as field_configfile:
+            field_config.write(field_configfile)
+            print("Request body and response body saved to feishu-field.ini.")
 
 if __name__ == "__main__":
     main()

@@ -2,6 +2,7 @@ import requests
 import configparser
 import json
 import BUILD_FIELD
+from CHECK_FIELD_EXIST import CHECK_FIELD_EXIST
 
 def main():
     # 读取配置文件
@@ -36,7 +37,20 @@ def main():
         print(f"Successfully created table records. Response status code: {response.status_code}")
     else:
         print(f"Error in creating table records. Response status code: {response.status_code}")
-        response.raise_for_status()
+        # 如果响应中包含 "FieldNameNotFound" 错误，尝试修复并重试
+        response_json = response.json()
+        if response.status_code != 200 and response_json.get("code") == 1254045:
+            print("检测到FieldNameNotFound错误，尝试创建不存在的字段...")
+            CHECK_FIELD_EXIST()
+
+            print("重试添加记录...")
+            response = requests.post(url, headers=headers, json=request_body)
+            
+            if response.status_code != 200:
+                print(f"重试失败，无法添加记录。错误信息: {response.json()}")
+                response.raise_for_status()
+        else:
+            response.raise_for_status()
 
     # 更新field配置文件
     field_config = configparser.ConfigParser()

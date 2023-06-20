@@ -1,0 +1,51 @@
+import requests
+import configparser
+import argparse
+
+def DELETE_FIELD(field_id, table_id):
+    # 读取配置文件
+    config = configparser.ConfigParser()
+    config.read('feishu-config.ini', encoding='utf-8')
+
+    # 从配置文件获取参数
+    app_token = config.get('TOKEN', 'app_token')
+    access_token = config.get('TOKEN', 'user_access_token')
+
+    # 如果没有提供表格ID，从配置文件中读取
+    if table_id is None:
+        table_id = config.get('ID', 'table_id')
+
+    # 构建URL
+    url = f"https://open.feishu.cn/open-apis/bitable/v1/apps/{app_token}/tables/{table_id}/fields/{field_id}"
+
+    # 设置请求头
+    headers = {
+        "Authorization": f"Bearer {access_token}"
+    }
+
+    # 发送DELETE请求
+    response = requests.delete(url, headers=headers)
+
+    if response.status_code == 200:
+        print(f"字段 {field_id} 已被成功删除")
+    else:
+        print(f"在删除字段 {field_id} 时发生错误，状态码: {response.status_code}")
+        print(f"响应内容: {response.text}")
+
+
+def DELETE_FIELD_CMD():
+    # 解析命令行参数
+    parser = argparse.ArgumentParser()
+
+    # 添加参数，此参数用来指定要删除的字段ID
+    parser.add_argument('-f', '--field', required=True, help='字段ID')
+    parser.add_argument('-t', '--table', required=False, help='表格ID')
+
+    args = parser.parse_args()
+
+    # 调用DELETE_FIELD函数，删除指定ID的字段
+    DELETE_FIELD(args.field, args.table)
+
+
+if __name__ == "__main__":
+    DELETE_FIELD_CMD()

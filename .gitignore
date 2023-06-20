@@ -160,3 +160,5 @@ cython_debug/
 #.idea/
 TEST-API.py
 feishu-config.ini
+input.csv
+feishu-field.ini

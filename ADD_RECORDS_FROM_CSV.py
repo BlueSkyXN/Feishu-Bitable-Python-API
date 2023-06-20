@@ -38,7 +38,7 @@ def main():
     }
 
     # 调用从BUILD_FIELD.py导入的函数来构建请求体
-    request_body = BUILD_FIELD.build_records(csv_file_path, 'feishu-field.ini')
+    request_body = BUILD_FIELD.BUILD_FIELD(csv_file_path, 'feishu-field.ini')
 
     # 构建请求URL
     url = build_request_url(app_token, table_id)

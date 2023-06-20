@@ -34,6 +34,9 @@ def CREATE_FIELD(csv_file='input.csv', config_file='feishu-field.ini'):
     update_config(config, config_file, field_names)
 
 def BUILD_FIELD(csv_file='input.csv', config_file='feishu-field.ini'):
+    # 决定是否将请求体写入配置文件
+    save_to_config = False
+
     # 读取配置文件
     config = read_config(config_file)
 
@@ -64,14 +67,16 @@ def BUILD_FIELD(csv_file='input.csv', config_file='feishu-field.ini'):
     # 构建请求体
     request_body = {'records': records}
     
-    # 如果配置文件中不存在'BUILD_FIELD' section，就创建一个
-    if not config.has_section('BUILD_FIELD'):
-        config.add_section('BUILD_FIELD')
-    config.set('BUILD_FIELD', 'request_body', json.dumps(request_body, ensure_ascii=False))
-    with open(config_file, 'w', encoding='utf-8') as configfile:
-        config.write(configfile)
+    if save_to_config:
+        # 如果配置文件中不存在'BUILD_FIELD' section，就创建一个
+        if not config.has_section('BUILD_FIELD'):
+            config.add_section('BUILD_FIELD')
+        config.set('BUILD_FIELD', 'request_body', json.dumps(request_body, ensure_ascii=False))
+        with open(config_file, 'w', encoding='utf-8') as configfile:
+            config.write(configfile)
 
     return request_body
+
 
 def BUILD_FIELD_CMD():
     parser = argparse.ArgumentParser(description='Build Feishu field from CSV file.')

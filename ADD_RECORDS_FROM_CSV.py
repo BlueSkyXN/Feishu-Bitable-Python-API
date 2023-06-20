@@ -3,23 +3,6 @@ import configparser
 import json
 import BUILD_FIELD
 
-def build_request_url(app_token, table_id):
-    url = f"https://open.feishu.cn/open-apis/bitable/v1/apps/{app_token}/tables/{table_id}/records/batch_create"
-    print(f"URL set to: {url}")
-    return url
-
-def send_request(url, headers, data):
-    response = requests.post(url, headers=headers, json=data)
-    print("Request sent. Response received.")
-    return response
-
-def check_response_status(response):
-    if response.status_code == 200:
-        print(f"Successfully created table records. Response status code: {response.status_code}")
-    else:
-        print(f"Error in creating table records. Response status code: {response.status_code}")
-        response.raise_for_status()
-
 def main():
     # 读取配置文件
     config = configparser.ConfigParser()
@@ -38,18 +21,23 @@ def main():
     }
 
     # 调用从BUILD_FIELD.py导入的函数来构建请求体
-    field_names = BUILD_FIELD.BUILD_FIELD(csv_file_path, 'feishu-field.ini')
-    request_body = {"records": [{"fields": field} for field in field_names]}
+    request_body = BUILD_FIELD.BUILD_FIELD(csv_file_path, 'feishu-field.ini')
 
     # 构建请求URL
-    url = build_request_url(app_token, table_id)
+    url = f"https://open.feishu.cn/open-apis/bitable/v1/apps/{app_token}/tables/{table_id}/records/batch_create"
+    print(f"URL set to: {url}")
 
     # 发送请求并接收响应
-    response = send_request(url, headers, request_body)
+    response = requests.post(url, headers=headers, json=request_body)
+    print("Request sent. Response received.")
 
     # 检查响应状态
-    check_response_status(response)
-    
+    if response.status_code == 200:
+        print(f"Successfully created table records. Response status code: {response.status_code}")
+    else:
+        print(f"Error in creating table records. Response status code: {response.status_code}")
+        response.raise_for_status()
+
     # 更新field配置文件
     field_config = configparser.ConfigParser()
     field_config.read('feishu-field.ini', encoding='utf-8')

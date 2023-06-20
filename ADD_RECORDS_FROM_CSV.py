@@ -5,7 +5,7 @@ import BUILD_FIELD
 from CHECK_FIELD_EXIST import CHECK_FIELD_EXIST
 
 def ADD_RECORDS_FROM_CSV():
-        # 读取配置文件
+    # 读取配置文件
     config = configparser.ConfigParser()
     config.read('feishu-config.ini', encoding='utf-8')
 
@@ -29,14 +29,15 @@ def ADD_RECORDS_FROM_CSV():
     batch_size = 450  # 每次发送的记录数量
     for i in range(0, len(all_records), batch_size):
         batch_records = all_records[i:i+batch_size]  # 获取当前批次的记录
-        record_dict['records'] = batch_records
+        # 对于每个批次，都应该重构请求体
+        batch_request_body = {'records': batch_records}
 
         # 构建请求URL
         url = f"https://open.feishu.cn/open-apis/bitable/v1/apps/{app_token}/tables/{table_id}/records/batch_create"
         print(f"URL set to: {url}")
 
         # 发送请求并接收响应
-        response = requests.post(url, headers=headers, json=record_dict)
+        response = requests.post(url, headers=headers, json=batch_request_body)
         print("Request sent. Response received.")
 
         # 检查响应状态
@@ -52,7 +53,7 @@ def ADD_RECORDS_FROM_CSV():
                     CHECK_FIELD_EXIST()
 
                     print("重试添加记录...")
-                    response = requests.post(url, headers=headers, json=record_dict)
+                    response = requests.post(url, headers=headers, json=batch_request_body)
                     response_json = response.json()
                     
                     if response.status_code != 200 or response_json.get('code') != 0:

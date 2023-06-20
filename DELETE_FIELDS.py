@@ -2,18 +2,22 @@ import requests
 import configparser
 import argparse
 
-def DELETE_FIELD(field_id, table_id):
+def DELETE_FIELD(app_token=None, field_id=None, table_id=None):
     # 读取配置文件
     config = configparser.ConfigParser()
     config.read('feishu-config.ini', encoding='utf-8')
 
     # 从配置文件获取参数
-    app_token = config.get('TOKEN', 'app_token')
     access_token = config.get('TOKEN', 'user_access_token')
 
-    # 如果没有提供表格ID，从配置文件中读取
-    if table_id is None:
+    # 如果没有提供app_token或table_id，则从配置文件中读取
+    if not app_token:
+        app_token = config.get('TOKEN', 'app_token')
+    if not table_id:
         table_id = config.get('ID', 'table_id')
+
+    if not field_id:
+        field_id = config.get('ID', 'field_id')
 
     # 构建URL
     url = f"https://open.feishu.cn/open-apis/bitable/v1/apps/{app_token}/tables/{table_id}/fields/{field_id}"

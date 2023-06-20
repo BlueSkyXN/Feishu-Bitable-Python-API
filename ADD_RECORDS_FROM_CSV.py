@@ -38,7 +38,8 @@ def main():
     }
 
     # 调用从BUILD_FIELD.py导入的函数来构建请求体
-    request_body = BUILD_FIELD.BUILD_FIELD(csv_file_path, 'feishu-field.ini')
+    field_names = BUILD_FIELD.BUILD_FIELD(csv_file_path, 'feishu-field.ini')
+    request_body = {"records": [{"fields": field} for field in field_names]}
 
     # 构建请求URL
     url = build_request_url(app_token, table_id)
@@ -48,6 +49,17 @@ def main():
 
     # 检查响应状态
     check_response_status(response)
+    
+    # 更新field配置文件
+    field_config = configparser.ConfigParser()
+    field_config.read('feishu-field.ini', encoding='utf-8')
+    if "REQUEST_RESPONSE" not in field_config.sections():
+        field_config.add_section("REQUEST_RESPONSE")
+    field_config.set("REQUEST_RESPONSE", "request_body", json.dumps(request_body))
+    field_config.set("REQUEST_RESPONSE", "response_body", response.text)
+    with open('feishu-field.ini', 'w', encoding='utf-8') as field_configfile:
+        field_config.write(field_configfile)
+        print("Request body and response body saved to feishu-field.ini.")
 
 if __name__ == "__main__":
     main()

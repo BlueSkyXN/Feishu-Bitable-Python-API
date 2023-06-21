@@ -1,7 +1,7 @@
-import argparse
-import configparser
 import requests
 import json
+import configparser
+import argparse
 import codecs
 
 def REFRESH_USER_ACCESS_TOKEN(token=None, refresh=None):
@@ -11,7 +11,7 @@ def REFRESH_USER_ACCESS_TOKEN(token=None, refresh=None):
 
     if not config.has_section('TOKEN'):
         config.add_section('TOKEN')
-        
+
     if 'app_token' not in config['TOKEN']:
         config.set('TOKEN', 'app_token', '')
         
@@ -22,7 +22,9 @@ def REFRESH_USER_ACCESS_TOKEN(token=None, refresh=None):
         config.write(configfile)
 
     token = config.get('TOKEN', 'app_token') if token is None else token
+    print(f"Using token: {token}")
     refresh = config.get('TOKEN', 'user_access_token') if refresh is None else refresh
+    print(f"Using refresh token: {refresh}")
 
     url = "https://open.feishu.cn/open-apis/authen/v1/refresh_access_token"
     headers = {"Content-Type": "application/json"}
@@ -39,11 +41,14 @@ def REFRESH_USER_ACCESS_TOKEN(token=None, refresh=None):
         print(f"Error: {data['msg']}")
         return None
 
-    config.set('TOKEN', 'user_access_token', data['data']['user_access_token'])
+    user_access_token = data['data']['user_access_token']
+    print(f"Refreshed User Access Token: {user_access_token}")
+    
+    config.set('TOKEN', 'user_access_token', user_access_token)
     with codecs.open('feishu-config.ini', 'w', encoding='utf-8') as configfile:
         config.write(configfile)
 
-    return data['data']['user_access_token']
+    return user_access_token
 
 def REFRESH_USER_ACCESS_TOKEN_CMD():
     parser = argparse.ArgumentParser(description='Refresh user access token.')

@@ -5,11 +5,14 @@ import json
 import os
 
 def GET_USER_ACCESS_TOKEN(login_code):
+    print("Starting the process of getting the user access token.")
+    
     # 配置文件路径
     config_path='feishu-config.ini'
 
     # 确保配置文件存在
     if not os.path.exists(config_path):
+        print("The configuration file does not exist. Creating a new one.")
         with open(config_path, 'w') as f:
             pass
 
@@ -19,6 +22,7 @@ def GET_USER_ACCESS_TOKEN(login_code):
 
     # 确保 TOKEN 部分存在
     if not config.has_section('TOKEN'):
+        print("The TOKEN section does not exist in the configuration file. Adding it.")
         config.add_section('TOKEN')
 
     # 从配置文件获取参数
@@ -41,28 +45,33 @@ def GET_USER_ACCESS_TOKEN(login_code):
         "code": login_code
     }
 
+    print("Sending the request to get the user access token.")
     # 发起请求
     response = requests.post(url, headers=headers, data=json.dumps(payload))
     response_json = response.json()
 
-# 检查响应状态码
+    # 检查响应状态码
     if response.status_code != 200:
         print(f"HTTP Error: {response_json}")
         return None
 
-# 检查响应体中的 code
+    # 检查响应体中的 code
     if response_json.get('code') != 0:
         print(f"Response Error: {response_json}")
         return None
 
-
     # 更新配置文件
     if 'data' in response_json and 'access_token' in response_json['data']:
         config.set('TOKEN', 'user_access_token', response_json['data']['access_token'])
+        # 如果存在 refresh_token，也保存到配置文件
+        if 'refresh_token' in response_json['data']:
+            print("Refresh token found. Updating the configuration file.")
+            config.set('TOKEN', 'refresh_token', response_json['data']['refresh_token'])
         with open(config_path, 'w', encoding='utf-8') as configfile:
             config.write(configfile)
 
-    return response_json.get('data', {}).get('access_token')
+    print("Finished getting the user access token.")
+    return response_json.get('data', {}).get('access_token'), response_json.get('data', {}).get('refresh_token')
 
 
 def GET_USER_ACCESS_TOKEN_CMD():
@@ -82,10 +91,11 @@ def GET_USER_ACCESS_TOKEN_CMD():
         raise ValueError("login_code is required either in command line argument or in the configuration file.")
 
     # 调用 GET_USER_ACCESS_TOKEN 函数，获取 user_access_token
-    user_access_token = GET_USER_ACCESS_TOKEN(login_code)
+    user_access_token, refresh_token = GET_USER_ACCESS_TOKEN(login_code)
     
     # 打印结果
     print(f'user_access_token: {user_access_token}')
+    print(f'refresh_token: {refresh_token}')
 
 
 # 主函数

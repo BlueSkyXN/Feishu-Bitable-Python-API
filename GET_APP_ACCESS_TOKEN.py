@@ -10,9 +10,9 @@ def GET_APP_ACCESS_TOKEN(app_id=None, app_secret=None):
 
     # 从配置文件获取参数
     if app_id is None:
-        app_id = config.get('TOKEN', 'app_id')
+        app_id = config.get('ID', 'app_id')
     if app_secret is None:
-        app_secret = config.get('TOKEN', 'app_secret')
+        app_secret = config.get('ID', 'app_secret')
 
     # 构建请求URL和请求头
     url = "https://open.feishu.cn/open-apis/auth/v3/app_access_token/internal"
@@ -33,7 +33,7 @@ def GET_APP_ACCESS_TOKEN(app_id=None, app_secret=None):
     # 更新配置文件
     if 'app_access_token' in response_json:
         config.set('TOKEN', 'app_access_token', response_json['app_access_token'])
-        with open('feishu-config.ini', 'w') as configfile:
+        with open('feishu-config.ini', 'w', encoding='utf-8') as configfile:
             config.write(configfile)
 
     return response_json.get('app_access_token')

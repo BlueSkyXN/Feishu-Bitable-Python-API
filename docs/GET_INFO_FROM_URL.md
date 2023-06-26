@@ -4,6 +4,25 @@
 
 `GET_INFO_FROM_URL` 是一个用于从 URL 中提取信息的 Python 程序。它可以解析 URL，并提取出其中的 app_token、table_id 和 view_id。
 
+## 目录
+- [简介](#简介)
+- [使用指南](#使用指南)
+  - [安装依赖](#安装依赖)
+  - [使用方法](#使用方法)
+- [输入输出](#输入输出)
+  - [GET_INFO_FROM_URL](#get_info_from_url)
+  - [GET_INFO_FROM_URL_JSON](#get_info_from_url_json)
+  - [GET_APPTOKEN_FROM_URL](#get_apptoken_from_url)
+  - [GET_TABLEID_FROM_URL](#get_tableid_from_url)
+  - [GET_VIEWID_FROM_URL](#get_viewid_from_url)
+- [示例](#示例)
+  - [GET_INFO_FROM_URL 示例](#get_info_from_url-示例)
+  - [GET_INFO_FROM_URL_JSON 示例](#get_info_from_url_json-示例)
+  - [GET_APPTOKEN_FROM_URL 示例](#get_apptoken_from_url-示例)
+  - [GET_TABLEID_FROM_URL 示例](#get_tableid_from_url-示例)
+  - [GET_VIEWID_FROM_URL 示例](#get_viewid_from_url-示例)
+- [设计思路](#设计思路)
+
 ## 使用指南
 
 ### 安装依赖

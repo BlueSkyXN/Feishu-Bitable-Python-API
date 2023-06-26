@@ -1,6 +1,6 @@
 # LIST_TABLES.py 文档
 
-LIST_TABLES.py 是一个用于列出多维表格中所有数据表的工具。它提供了一个封装的函数 `LIST_TABLES()`，可以通过指定的参数或配置文件来获取数据表列表。
+`LIST_TABLES.py` 是一个用于列出多维表格中所有数据表的工具。它提供了一个封装的函数 `LIST_TABLES()`，可以通过指定的参数或配置文件来获取数据表列表。
 
 参考官方API文档 [列出数据表](https://open.feishu.cn/document/server-docs/docs/bitable-v1/app-table/list#9dab04c2)
 

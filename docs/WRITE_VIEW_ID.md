@@ -1,6 +1,6 @@
 # WRITE_VIEW_ID.py 文档
 
-WRITE_VIEW_ID.py 是一个用于检索视图并将视图 ID 写入配置文件的工具。它提供了一个函数 `WRITE_VIEW_ID()`，可以通过给定的视图名称将视图 ID 写入到配置文件中。
+`WRITE_VIEW_ID.py` 是一个用于检索视图并将视图 ID 写入配置文件的工具。它提供了一个函数 `WRITE_VIEW_ID()`，可以通过给定的视图名称将视图 ID 写入到配置文件中。
 
 ## 目录
 

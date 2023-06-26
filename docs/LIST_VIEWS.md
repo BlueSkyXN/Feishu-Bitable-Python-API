@@ -1,6 +1,6 @@
 # LIST_VIEWS.py 文档
 
-LIST_VIEWS.py 是一个用于列出数据表视图的工具。它提供了一个函数 `LIST_VIEWS()`，可以通过指定的参数或配置文件来获取数据表的视图列表。
+`LIST_VIEWS.py` 是一个用于列出数据表视图的工具。它提供了一个函数 `LIST_VIEWS()`，可以通过指定的参数或配置文件来获取数据表的视图列表。
 
 参考官方API文档 [列出视图](https://open.feishu.cn/document/server-docs/docs/bitable-v1/app-table-view/list)
 

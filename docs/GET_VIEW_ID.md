@@ -1,6 +1,6 @@
 # GET_VIEW_ID.py 文档
 
-GET_VIEW_ID.py 是一个用于检索视图 ID 的工具。它提供了一个函数 `GET_VIEW_ID()`，可以通过给定的视图名称获取视图的 ID。
+`GET_VIEW_ID.py` 是一个用于检索视图 ID 的工具。它提供了一个函数 `GET_VIEW_ID()`，可以通过给定的视图名称获取视图的 ID。
 
 ## 目录
 

@@ -83,18 +83,7 @@ print(field_info)
 
 ### 输出
 
-`GET_FIELD_INFO.py` 脚本的输出是一个包含字段信息的字典。字段信息包括字段名称、字段ID、字段类型等（具体取决于飞书 API 返回的字段信息）。
-
-以下是示例输出：
-
-```python
-{
-    "field_id": "field123",
-    "field_name": "字段名称",
-    "field_type": "字段类型",
-    ...
-}
-```
+输出直接是要的值，查名字就是名字，查ID就是ID
 
 ## 示例
 
@@ -126,6 +115,4 @@ field_info = GET_FIELD_INFO(field_name, field_id, app_token, table_id, view_id, 
 print(field_info)
 ```
 
-请注意，`app_token`、`table_id` 和 `view_id` 是必需的参数。如果未设置
-
-这些参数，脚本将无法运行。
+请注意，`app_token`、`table_id` 和 `view_id` 是必需的参数。如果未设置这些参数，脚本将无法运行。

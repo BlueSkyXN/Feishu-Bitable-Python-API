@@ -2,9 +2,11 @@ import argparse
 import configparser
 from GET_INFO_FROM_URL import GET_APPTOKEN_FROM_URL, GET_TABLEID_FROM_URL, GET_VIEWID_FROM_URL
 
-def WRITE_INFO_FROM_URL(url):
+
+
+def WRITE_INFO_FROM_URL(url, config_file="feishu-config.ini"):
     config = configparser.ConfigParser()
-    config.read('feishu-config.ini', encoding='utf-8')
+    config.read(config_file, encoding='utf-8')
 
     try:
         app_token = GET_APPTOKEN_FROM_URL(url)
@@ -30,7 +32,7 @@ def WRITE_INFO_FROM_URL(url):
     config['ID']['view_id'] = view_id
 
     try:
-        with open('feishu-config.ini', 'w', encoding='utf-8') as configfile:
+        with open(config_file, 'w', encoding='utf-8') as configfile:
             config.write(configfile)
     except Exception:
         return None
@@ -42,15 +44,17 @@ def WRITE_INFO_FROM_URL_CMD():
     parser = argparse.ArgumentParser()
     parser.add_argument('-u', '--url', default=None, help='用于提取令牌的URL')
     parser.add_argument('-i', '--input', default=None, help='用于提取令牌的URL')
+    parser.add_argument('-c', '--config', default="feishu-config.ini", help='配置文件路径')
     args = parser.parse_args()
 
     url = args.url if args.url is not None else args.input
+    config_file = args.config
 
     if url is None:
         print("错误：未提供URL，请使用'-u/--url'或'-i/--input'参数提供URL。")
         return
 
-    result = WRITE_INFO_FROM_URL(url)
+    result = WRITE_INFO_FROM_URL(url, config_file=config_file)
 
     if result is None:
         print("发生错误，请检查您的输入URL并再试一次。")
@@ -59,7 +63,7 @@ def WRITE_INFO_FROM_URL_CMD():
         print(f"app_token: {app_token}")
         print(f"table_id: {table_id}")
         print(f"view_id: {view_id}")
-        print("成功写入 'feishu-config.ini' 文件")
+        print(f"成功写入 '{config_file}' 文件")
 
 
 if __name__ == "__main__":

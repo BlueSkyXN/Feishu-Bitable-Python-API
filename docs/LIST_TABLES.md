@@ -51,9 +51,7 @@ response_body = LIST_TABLES(app_token, user_access_token, page_size, page_token,
 - `user_access_token`：用户访问令牌 (user access token)。如果未提供，将从配置文件中获取默认值。
 - `page_size`：分页大小，指定每页返回的数据表数量。如果未提供，将从配置文件中获取默认值。
 - `page_token`：分页标记，用于获取下一页数据表列表。如果未提供，将从配置文件中获取默认值。
-- `config_file`：配置文件路径，指定配置文件的位置。默认
-
-为 "feishu-config.ini"。
+- `config_file`：配置文件路径，指定配置文件的位置。默认为 "feishu-config.ini"。
 
 ## 设计思路
 
@@ -83,32 +81,6 @@ LIST_TABLES.py 脚本接受以下参数作为输入：
 
 如果这些参数未提供，则脚本将尝试从配置文件中获取默认值。
 
-### 输出
-
-LIST_TABLES.py 脚本的输出是一个 JSON 格式的数据表列表。它包含了每个数据表的详细信息，如数据表的名称、ID、创建时间等。（具体取决于飞书API）
-
-以下是示例输出：
-
-```json
-{
-    "tables": [
-        {
-            "table_id": "tbl123456789",
-            "name": "Table 1",
-            "created_at": "2023-06-01T12:00:00Z",
-            "updated_at": "2023-06-02T10:00:00Z"
-        },
-        {
-            "table_id": "tbl987654321",
-            "name": "Table 2",
-            "created_at": "2023-06-03T14:00:00Z",
-            "updated_at": "2023-06-04T11:30:00Z"
-        }
-    ],
-    "page_token": "tblsRc9GRRXKqhvW"
-}
-```
-
 输出是一个包含数据表列表和分页标记的 JSON 对象。
 
 ## 示例
@@ -134,3 +106,27 @@ response_body = LIST_TABLES(app_token, user_access_token, page_size, page_token,
 print(json.dumps(response_body, indent=4))
 ```
 
+### 输出
+
+LIST_TABLES.py 脚本的输出是一个 JSON 格式的数据表列表。它包含了每个数据表的详细信息，如数据表的名称、ID、创建时间等。（具体取决于飞书API）
+
+以下是示例输出：
+
+```json
+{
+    "code": 0,
+    "msg": "success",
+    "data": {
+        "has_more": false,
+        "page_token": "tblKz5D60T4JlfcT",
+        "total": 1,
+        "items": [
+            {
+                "table_id": "tblKz5D60T4JlfcT",
+                "revision": 1,
+                "name": "数据表1"
+            }
+        ]
+    }
+}
+```

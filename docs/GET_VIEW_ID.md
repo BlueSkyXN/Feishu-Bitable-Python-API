@@ -93,6 +93,10 @@ view_id = GET_VIEW_ID(view_name, app_token, user_access_token, page_size, page_t
 print(view_id)
 ```
 
+### 输出
+
+脚本的输出是一个ID
+
 ## 注意事项
 
 - 在使用 GET_VIEW_ID.py 时，需要确保已经正确安装了 Python 环境，并且已经安装了 argparse、configparser 和 LIST_VIEWS 模块。

@@ -93,6 +93,38 @@ response_body = LIST_VIEWS(app_token, user_access_token, page_size, page_token, 
 print(json.dumps(response_body, indent=4))
 ```
 
+### 输出
+
+LIST_TABLES.py 脚本的输出是一个 JSON 格式的数据表列表。它包含了每个数据表的详细信息，如数据表的名称、ID、创建时间等。（具体取决于飞书API）
+
+以下是示例输出：
+
+```json
+{
+	"code": 0,
+	"msg": "success",
+	"data": {
+		"has_more": false,
+		"items": [{
+				"view_id": "vewqtI3f2u",
+				"view_name": "公共表格视图",
+				"view_public_level": "Public",
+				"view_type": "grid"
+			},
+			{
+				"view_id": "vew5Ys1Y1B",
+				"view_name": "个人表格视图",
+				"view_private_owner_id": "ou_fe4e2a0c10f41fb85620eb4b71d12082",
+				"view_public_level": "Private",
+				"view_type": "grid"
+			}
+		],
+		"page_token": "vew5Ys1Y1B",
+		"total": 2
+	}
+}
+```
+
 ## 注意事项
 
 - 在使用 LIST_VIEWS.py 时，需要确保已经正确安装了 Python 环境，并且已经安装了 requests、configparser、json 和 argparse 库。

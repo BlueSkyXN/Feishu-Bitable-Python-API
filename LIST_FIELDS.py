@@ -1,15 +1,17 @@
-import requests
+import argparse
 import configparser
 import json
-import argparse
+import requests
+
 
 # 列出字段
-def LIST_FIELDS(app_token=None, table_id=None, view_id=None, page_token=None, page_size=None):
-    # 读取配置文件
-    config = configparser.ConfigParser()
-    config.read('feishu-config.ini', encoding='utf-8')
+def LIST_FIELDS(app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, config_file=None):
+    if config_file is None:
+        config_file = 'feishu-config.ini'
 
-    # 如果参数为空，则使用配置文件中的默认值
+    config = configparser.ConfigParser()
+    config.read(config_file, encoding='utf-8')
+
     if not app_token:
         app_token = config.get('TOKEN', 'app_token')
     if not table_id:
@@ -21,35 +23,36 @@ def LIST_FIELDS(app_token=None, table_id=None, view_id=None, page_token=None, pa
     if not page_size:
         page_size = config.get('LIST_FIELDS', 'page_size', fallback=100)
 
-    # 构造请求URL和头部
     url = f"https://open.feishu.cn/open-apis/bitable/v1/apps/{app_token}/tables/{table_id}/fields"
     headers = {
         'Authorization': 'Bearer ' + config.get('TOKEN', 'user_access_token'),
         'Content-Type': 'application/json; charset=utf-8',
     }
 
-    # 如果存在page_token和view_id，则添加到请求参数中
     params = {'page_size': page_size}
     if page_token:
         params['page_token'] = page_token
     if view_id:
         params['view_id'] = view_id
 
-    # 发起请求，并返回响应体的json形式
     response = requests.get(url, headers=headers, params=params)
     return response.json()
 
 
-if __name__ == "__main__":
-    # 解析命令行参数
+# 列出字段命令行调用函数
+def LIST_FIELDS_CMD():
     parser = argparse.ArgumentParser()
     parser.add_argument('--app_token', help='app token')
     parser.add_argument('--table_id', help='table ID')
     parser.add_argument('--view_id', help='view ID')
     parser.add_argument('--page_token', help='page token')
     parser.add_argument('--page_size', type=int, help='page size')
+    parser.add_argument('--config_file', default="feishu-config.ini", help='config file path')
     args = parser.parse_args()
 
-    # 调用封装的函数，使用命令行参数或默认值
-    response_body = LIST_FIELDS(args.app_token, args.table_id, args.view_id, args.page_token, args.page_size)
+    response_body = LIST_FIELDS(args.app_token, args.table_id, args.view_id, args.page_token, args.page_size, args.config_file)
     print(json.dumps(response_body, indent=4))
+
+
+if __name__ == "__main__":
+    LIST_FIELDS_CMD()

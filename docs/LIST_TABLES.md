@@ -134,6 +134,3 @@ response_body = LIST_TABLES(app_token, user_access_token, page_size, page_token,
 print(json.dumps(response_body, indent=4))
 ```
 
-上述示例演示了如何通过导入脚本并调用函数来获取数据表列表，并将结果打印为 JSON 格式的输出。
-
-以上是对 LIST_TABLES.py 脚本的完整文档。该脚本提供了方便的方式来获取飞书多维表格中的数据表列表，并且支持命令行和导入两种使用方式。通过提供必要的参数，您可以轻松地获取数据表列表并进行进一步处理。

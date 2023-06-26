@@ -32,6 +32,7 @@ def WRITE_VIEW_ID(view_name, app_token=None, user_access_token=None, page_size=N
 
     return view_id  # 如果一切正常，返回提取的值
 
+
 # 这个函数用于解析命令行参数并调用WRITE_VIEW_ID函数
 def WRITE_VIEW_ID_CMD():
     # 创建一个argparse对象，用于解析命令行参数
@@ -60,6 +61,7 @@ def WRITE_VIEW_ID_CMD():
     else:  # 如果返回的不是None，打印提取的值和成功信息
         print(f"view_id: {result}")
         print(f"成功写入配置文件 '{args.config_file}'")
+
 
 # 主函数
 if __name__ == "__main__":

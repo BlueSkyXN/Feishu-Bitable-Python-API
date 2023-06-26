@@ -34,6 +34,7 @@ def GET_VIEWID_FROM_URL(url):
     _, _, view_id = EXTRACT_PARAMETERS(url)
     return view_id
 
+
 # 主函数
 if __name__ == "__main__":
     # 解析命令行参数

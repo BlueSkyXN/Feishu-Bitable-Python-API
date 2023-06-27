@@ -3,12 +3,14 @@ import configparser
 import argparse
 
 def WRITE_LOGIN_CODE(redirect_uri=None, app_id=None, config_file=None):
-    # 创建一个 configparser 对象，用于读取和写入配置文件
-    config = configparser.ConfigParser()
-    
+
     # 如果配置文件路径为空，则使用默认路径
     if not config_file:
         config_file = 'feishu-config.ini'
+        
+    # 创建一个 configparser 对象，用于读取和写入配置文件
+    config = configparser.ConfigParser()
+
 
     config.read(config_file, encoding='utf-8')
 

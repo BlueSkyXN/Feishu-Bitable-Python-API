@@ -3,12 +3,13 @@ import configparser
 import argparse
 
 def GET_LOGIN_CODE(redirect_uri=None, app_id=None, config_file=None):
-    config = configparser.ConfigParser()
 
     # 如果配置文件路径为空，则使用默认路径
     if not config_file:
         config_file = 'feishu-config.ini'
 
+    config = configparser.ConfigParser()
+    
     config.read(config_file, encoding='utf-8')
 
     # 获取重定向URL

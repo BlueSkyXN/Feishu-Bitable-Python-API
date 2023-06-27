@@ -3,10 +3,13 @@ import configparser
 import argparse
 import json
 
-def GET_APP_ACCESS_TOKEN(app_id=None, app_secret=None):
+def GET_APP_ACCESS_TOKEN(app_id=None, app_secret=None, config_file=None):
     # 读取配置文件
     config = configparser.ConfigParser()
-    config.read('feishu-config.ini', encoding='utf-8')
+    if config_file:
+        config.read(config_file, encoding='utf-8')
+    else:
+        config.read('feishu-config.ini', encoding='utf-8')
 
     # 从配置文件获取参数
     if app_id is None:
@@ -31,10 +34,14 @@ def GET_APP_ACCESS_TOKEN(app_id=None, app_secret=None):
     response_json = response.json()
     
     # 更新配置文件
-    #if 'app_access_token' in response_json:
-        #config.set('TOKEN', 'app_access_token', response_json['app_access_token'])
-       # with open('feishu-config.ini', 'w', encoding='utf-8') as configfile:
-           # config.write(configfile)
+    # if 'app_access_token' in response_json:
+    #     config.set('TOKEN', 'app_access_token', response_json['app_access_token'])
+    #     if config_file:
+    #         with open(config_file, 'w', encoding='utf-8') as configfile:
+    #             config.write(configfile)
+    #     else:
+    #         with open('feishu-config.ini', 'w', encoding='utf-8') as configfile:
+    #             config.write(configfile)
 
     return response_json.get('app_access_token')
 
@@ -43,10 +50,11 @@ def GET_APP_ACCESS_TOKEN_CMD():
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--id', help='app ID')
     parser.add_argument('-s', '--secret', help='app secret')
+    parser.add_argument('--config_file', help='config file path')
     args = parser.parse_args()
 
     # 调用GET_APP_ACCESS_TOKEN函数，获取app_access_token
-    app_access_token = GET_APP_ACCESS_TOKEN(args.id, args.secret)
+    app_access_token = GET_APP_ACCESS_TOKEN(args.id, args.secret, args.config_file)
     
     # 打印结果
     print(f'app_access_token: {app_access_token}')

@@ -31,10 +31,10 @@ def GET_APP_ACCESS_TOKEN(app_id=None, app_secret=None):
     response_json = response.json()
     
     # 更新配置文件
-    if 'app_access_token' in response_json:
-        config.set('TOKEN', 'app_access_token', response_json['app_access_token'])
-        with open('feishu-config.ini', 'w', encoding='utf-8') as configfile:
-            config.write(configfile)
+    #if 'app_access_token' in response_json:
+        #config.set('TOKEN', 'app_access_token', response_json['app_access_token'])
+       # with open('feishu-config.ini', 'w', encoding='utf-8') as configfile:
+           # config.write(configfile)
 
     return response_json.get('app_access_token')
 

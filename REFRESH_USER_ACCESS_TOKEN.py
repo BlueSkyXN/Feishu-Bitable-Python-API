@@ -4,26 +4,26 @@ import json
 import os
 import argparse
 
-def REFRESH_USER_ACCESS_TOKEN(app_access_token=None, refresh_token=None):
-    # 配置文件路径
-    config_path='feishu-config.ini'
+def REFRESH_USER_ACCESS_TOKEN(app_access_token=None, refresh_token=None, config_file=None):
+    if config_file is None:
+        config_file = 'feishu-config.ini'
 
     # 确保配置文件存在
-    if not os.path.exists(config_path):
-        with open(config_path, 'w') as f:
+    if not os.path.exists(config_file):
+        with open(config_file, 'w') as f:
             pass
 
     # 读取配置文件
     config = configparser.ConfigParser()
-    config.read(config_path, encoding='utf-8')
+    config.read(config_file, encoding='utf-8')
 
     # 确保 TOKEN 部分存在
     if not config.has_section('TOKEN'):
         config.add_section('TOKEN')
 
     # 从配置文件或者参数获取令牌
-    app_access_token = app_access_token or config.get('TOKEN', 'app_access_token', fallback=None)
-    refresh_token = refresh_token or config.get('TOKEN', 'refresh_token', fallback=None)
+    app_access_token = app_access_token if app_access_token is not None else config.get('TOKEN', 'app_access_token', fallback=None)
+    refresh_token = refresh_token if refresh_token is not None else config.get('TOKEN', 'refresh_token', fallback=None)
 
     # 如果任一令牌不存在，需要用户先获取它
     if not app_access_token or not refresh_token:
@@ -33,6 +33,7 @@ def REFRESH_USER_ACCESS_TOKEN(app_access_token=None, refresh_token=None):
     url = "https://open.feishu.cn/open-apis/authen/v1/refresh_access_token"
     headers = {
         'Content-Type': 'application/json; charset=utf-8',
+        'Authorization': f'Bearer {app_access_token}'
     }
 
     # 构建请求体
@@ -60,7 +61,7 @@ def REFRESH_USER_ACCESS_TOKEN(app_access_token=None, refresh_token=None):
     if 'data' in response_json and 'access_token' in response_json['data']:
         config.set('TOKEN', 'user_access_token', response_json['data']['access_token'])
         config.set('TOKEN', 'refresh_token', response_json['data']['refresh_token'])
-        with open(config_path, 'w', encoding='utf-8') as configfile:
+        with open(config_file, 'w', encoding='utf-8') as configfile:
             config.write(configfile)
 
     return response_json.get('data', {}).get('access_token')
@@ -69,9 +70,10 @@ def REFRESH_USER_ACCESS_TOKEN_CMD():
     parser = argparse.ArgumentParser(description='Refresh user access token.')
     parser.add_argument('-a', '--app_token', type=str, help='The app access token.')
     parser.add_argument('-r', '--refresh', type=str, help='The refresh token.')
+    parser.add_argument('--config_file', default='feishu-config.ini', help='config file path')
     args = parser.parse_args()
 
-    user_access_token = REFRESH_USER_ACCESS_TOKEN(args.app_token, args.refresh)
+    user_access_token = REFRESH_USER_ACCESS_TOKEN(args.app_token, args.refresh, args.config_file)
     print(f'User Access Token: {user_access_token}')
 
 if __name__ == "__main__":

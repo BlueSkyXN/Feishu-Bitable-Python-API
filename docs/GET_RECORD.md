@@ -2,6 +2,8 @@
 
 该程序 `GET_RECORD.py` 是使用 Python 语言编写的，通过调用飞书 API 实现从指定数据表中获取记录的详细信息。
 
+参考官方API文档 [检索记录](https://open.feishu.cn/document/server-docs/docs/bitable-v1/app-table-record/get)
+
 ## 目录
 
 - [设计思路](#设计思路)

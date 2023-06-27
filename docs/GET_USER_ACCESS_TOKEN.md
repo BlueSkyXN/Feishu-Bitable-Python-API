@@ -2,6 +2,10 @@
 
 该程序 `GET_USER_ACCESS_TOKEN.py` 是使用 Python 语言编写的，通过调用飞书开放平台的接口获取用户的访问令牌（access token）。
 
+参考官方帮助文档 [获取访问凭证](https://open.feishu.cn/document/server-docs/api-call-guide/calling-process/get-access-token)
+和 API文档 [获取 user_access_token](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/authen-v1/authen/access_token)
+
+
 ## 目录
 
 - [设计思路](#设计思路)

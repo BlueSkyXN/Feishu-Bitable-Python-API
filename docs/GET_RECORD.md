@@ -92,6 +92,4 @@ python GET_RECORD.py --app_token your_app_token --table_id your_table_id --recor
 python GET_RECORD.py --config_file /path/to/config.ini
 ```
 
-请注意，确保您已正确配置配置文件中的相关信息，
-
-以及提供正确的飞书应用令牌、数据表 ID 和记录 ID。
+请注意，确保您已正确配置配置文件中的相关信息，以及提供正确的飞书应用令牌、数据表 ID 和记录 ID。

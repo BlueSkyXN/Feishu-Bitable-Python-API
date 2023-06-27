@@ -87,8 +87,5 @@ python GET_APP_ACCESS_TOKEN.py -i YOUR_APP_ID -s YOUR_APP_SECRET --config_file /
 python GET_APP_ACCESS_TOKEN.py
 ```
 
-请注意，在运行程序之前，确保您已替换示例代码中
+请注意，在运行程序之前，确保您已替换示例代码中的 `YOUR_APP_ID` 和 `YOUR_APP_SECRET` 为您自己的应用的 ID 和密钥。
 
-的 `YOUR_APP_ID` 和 `YOUR_APP_SECRET` 为您自己的应用的 ID 和密钥。
-
-以上是 `GET_APP_ACCESS_TOKEN.py` 程序的使用文档，如果您有任何问题或需要进一步的帮助，请随时提问。

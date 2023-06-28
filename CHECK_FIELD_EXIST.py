@@ -36,7 +36,7 @@ def CHECK_FIELD_EXIST(app_token=None, table_id=None, view_id=None, page_token=No
     # 检查每个需要检查的字段是否在飞书字段列表中，如果不在，就创建新的字段
     for field in fields_to_check:
         if field not in feishu_fields:
-            CREATE_FIELD(field)
+            CREATE_FIELD(field_name=field, field_type=1, app_token=app_token, table_id=table_id, config_file=config_file)
             print(f"字段 {field} 已成功创建")
 
 if __name__ == "__main__":
@@ -61,4 +61,3 @@ if __name__ == "__main__":
         csv_file=args.csv_file,
         config_file=args.config_file
     )
-

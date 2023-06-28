@@ -1,33 +1,62 @@
-# CHECK_FIELD_EXIST.py 使用文档
+# CHECK_FIELD_EXIST.py 使用指南
 
-该程序 `CHECK_FIELD_EXIST.py` 是使用 Python 语言编写的，用于检查飞书表格中的字段是否存在，并在不存在时创建新字段。
+`CHECK_FIELD_EXIST.py` 是一个用于检查并创建飞书表格中不存在的字段的工具。它提供了一个函数 `CHECK_FIELD_EXIST()`，可以通过给定的 CSV 文件和飞书配置信息，检查并创建不存在的字段。
 
 ## 目录
-
+- [简介](#简介)
+- [函数介绍](#函数介绍)
+  - [CHECK_FIELD_EXIST 函数](#check_field_exist-函数)
+- [使用方法](#使用方法)
+- [示例](#示例)
 - [设计思路](#设计思路)
-- [函数签名](#函数签名)
-- [输入参数](#输入参数)
-- [函数模式示例](#函数模式示例)
-- [命令行模式示例](#命令行模式示例)
+- [输入输出](#输入输出)
+- [注意事项](#注意事项)
+
+## 简介
+
+CHECK_FIELD_EXIST.py 是一个 Python 脚本，用于检查并创建飞书表格中不存在的字段。该脚本首先会调用 LIST_FIELDS 函数来获取飞书表格的字段列表，然后与 CSV 文件中的字段进行比对，如果有不存在的字段，就会调用 CREATE_FIELD 函数来创建新的字段。
+
+## 函数介绍
+
+### CHECK_FIELD_EXIST 函数
+
+此函数用于检查并创建飞书表格中不存在的字段。函数的参数包括：
+
+```python
+CHECK_FIELD_EXIST(app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, csv_file=None, config_file=None)
+```
+
+## 使用方法
+
+在命令行中，可以通过以下方式调用 CHECK_FIELD_EXIST 函数：
+
+```python
+python CHECK_FIELD_EXIST.py --app_token your_app_token --table_id your_table_id --view_id your_view_id --page_token your_page_token --page_size your_page_size --csv_file your_csv_file_path --config_file your_config_file_path
+```
+
+其中，`--app_token`、`--table_id`、`--view_id`、`--page_token`、`--page_size`、`--csv_file` 和 `--config_file` 参数用于指定相应的值。
+
+## 示例
+
+以下是一个使用示例：
+
+```python
+python CHECK_FIELD_EXIST.py --app_token "your_app_token" --table_id "your_table_id" --view_id "your_view_id" --page_token "your_page_token" --page_size 100 --csv_file "your_csv_file_path" --config_file "your_config_file_path"
+```
 
 ## 设计思路
 
-整个程序的设计思路如下：
+CHECK_FIELD_EXIST.py 的设计思路主要包括以下几点：
 
-1. 从配置文件或函数参数中获取相关配置，如应用的访问令牌、表格 ID、视图 ID 等。
-2. 使用 `LIST_FIELDS` 函数获取飞书表格中的字段列表。
-3. 从 CSV 文件中读取字段列表。
-4. 对比字段列表，检查每个需要检查的字段是否在飞书字段列表中。
-5. 如果字段不存在于飞书字段列表中，则调用 `CREATE_FIELD` 函数创建新的字段。
-6. 在创建字段后，打印成功信息。
+1. 通过调用 LIST_FIELDS 函数获取飞书表格的字段列表。
+2. 从 CSV 文件中读取字段列表。
+3. 比对飞书表格的字段列表和 CSV 文件的字段列表，找出不存在的字段。
+4. 对于每个不存在的字段，调用 CREATE_FIELD 函数来创建新的字段。
+5. 通过 argparse 库解析命令行参数，并调用 CHECK_FIELD_EXIST 函数进行字段检查和创建。
 
-## 函数签名
+## 输入输出
 
-```python
-def CHECK_FIELD_EXIST(app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, csv_file=None, config_file=None):
-```
-
-## 输入参数
+### 输入
 
 - `app_token` (str, optional): 飞书应用的访问令牌。如果未提供，将从配置文件中获取。
 - `table_id` (str, optional): 飞书表格的唯一标识符。如果未提供，将从配置文件中获取。
@@ -37,46 +66,14 @@ def CHECK_FIELD_EXIST(app_token=None, table_id=None, view_id=None, page_token=No
 - `csv_file` (str, optional): CSV 文件的路径。如果未提供，将从配置文件中获取。
 - `config_file` (str, optional): 配置文件的路径。如果未提供，默认为 `feishu-config.ini`。
 
-## 函数模式示例
+### 输出
 
-您可以按照以下方式使用 `CHECK_FIELD_EXIST` 函数：
+- 如果一切正常，对于每个成功创建的字段，会打印一条消息："字段 {field} 已成功创建"。
+- 如果在尝试过程中出现错误，会抛出异常。
 
-```python
-from CHECK_FIELD_EXIST import CHECK_FIELD_EXIST
+## 注意事项
 
-app_token = "YOUR_APP_TOKEN"
-table_id = "YOUR_TABLE_ID"
-view_id = "YOUR_VIEW_ID"
-page_token = "YOUR_PAGE_TOKEN"
-page_size = 100
-csv_file = "input.csv"
-config_file = "feishu-config.ini"
-
-CHECK_FIELD_EXIST(
-    app_token=app_token,
-    table_id=table_id,
-    view_id=view_id,
-    page_token=page_token,
-    page_size=page_size,
-    csv_file=csv_file,
-    config_file=config_file
-)
-```
-
-请根据实际情况提供正确的参数值。如果某个参数未提供，程序将尝试从配置文件中获取相应的值。如果在配置文件中也未找到对应的值，则程序将使用默认值。
-
-注意：为了使用 `CHECK_FIELD_EXIST
-
-` 函数，您需要确保 `LIST_FIELDS` 和 `CREATE_FIELD` 函数已经正确定义并可用。
-
-## 命令行模式示例
-
-您也可以使用命令行模式运行 `CHECK_FIELD_EXIST.py` 程序。在命令行中执行以下命令：
-
-```bash
-python CHECK_FIELD_EXIST.py --app_token YOUR_APP_TOKEN --table_id YOUR_TABLE_ID --view_id YOUR_VIEW_ID --page_token YOUR_PAGE_TOKEN --page_size 100 --csv_file input.csv --config_file feishu-config.ini
-```
-
-请根据实际情况提供正确的参数值。如果某个参数未提供，程序将尝试从配置文件中获取相应的值。如果在配置文件中也未找到对应的值，则程序将使用默认值。
-
-注意：在命令行模式下，您需要确保相关的依赖项已经安装，并且程序文件和配置文件位于当前工作目录中。
+- 在使用 CHECK_FIELD_EXIST.py 时，需要确保已经正确安装了 Python 环境，并且已经安装了 argparse、configparser 和 pandas 库。
+- 在使用 CHECK_FIELD_EXIST.py 时，需要确保 LIST_FIELDS 和 CREATE_FIELD 函数可以正常工作。
+- 在使用 CHECK_FIELD_EXIST.py 时，需要确保提供的命令行参数是正确的。
+- 在使用 CHECK_FIELD_EXIST.py 时，需要确保 CSV 文件中的字段名与飞书表格中的字段名一致。

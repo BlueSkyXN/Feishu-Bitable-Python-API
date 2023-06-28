@@ -2,10 +2,12 @@ import requests
 import configparser
 import argparse
 
-def DELETE_RECORD(app_token=None, table_id=None, record_id=None):
+def DELETE_RECORD(app_token=None, table_id=None, record_id=None, config_file=None):
+    if config_file is None:
+        config_file = 'feishu-config.ini'
     # 读取配置文件
     config = configparser.ConfigParser()
-    config.read('feishu-config.ini', encoding='utf-8')
+    config.read(config_file, encoding='utf-8')
 
     # 如果参数为空，则使用配置文件中的默认值
     if not app_token:
@@ -40,10 +42,11 @@ def DELETE_RECORD_CMD():
     parser.add_argument('-a', '--app_token', default=None, help='app token')
     parser.add_argument('-t', '--table_id', default=None, help='table ID')
     parser.add_argument('-r', '--record_id', default=None, help='record ID')
+    parser.add_argument('-c', '--config', default='feishu-config.ini', help='配置文件路径')
     args = parser.parse_args()
 
     # 调用DELETE_RECORD函数
-    DELETE_RECORD(args.app_token, args.table_id, args.record_id)
+    DELETE_RECORD(args.app_token, args.table_id, args.record_id, config_file=args.config)
 
 
 if __name__ == "__main__":

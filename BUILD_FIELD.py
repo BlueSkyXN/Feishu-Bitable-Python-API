@@ -3,42 +3,32 @@ import configparser
 import json
 import argparse
 
-def read_config(config_file):
-    config = configparser.ConfigParser()
-    config.read(config_file, encoding='utf-8')
-    return config
+def BUILD_FIELD(csv_file=None, config_file=None):
+    if config_file is None:
+        config_file = 'feishu-field.ini'
+    if csv_file is None:
+        csv_file = 'input.csv'
 
-def update_config(config, config_file, field_names):
-    # 如果配置文件中不存在当前CSV文件的字段，就添加到配置文件中
-    for field_name in field_names:
-        if not config.has_option('FIELD_TYPE', field_name):
-            config.set('FIELD_TYPE', field_name, 'string')  # 默认添加为string类型
-    # 将更新后的配置文件保存
-    with open(config_file, 'w', encoding='utf-8') as configfile:
-        config.write(configfile)
-
-def CREATE_FIELD(csv_file='input.csv', config_file='feishu-field.ini'):
     # 读取CSV文件的第一行（字段名称）
     with open(csv_file, 'r', encoding='utf-8') as file:
         reader = csv.reader(file)
         field_names = next(reader)
 
     # 读取配置文件
-    config = read_config(config_file)
+    config = configparser.ConfigParser()
+    config.read(config_file, encoding='utf-8')
 
     # 如果配置文件中不存在'FIELD_TYPE' section，就创建一个
     if not config.has_section('FIELD_TYPE'):
         config.add_section('FIELD_TYPE')
 
     # 如果配置文件中不存在当前CSV文件的字段，就添加到配置文件中
-    update_config(config, config_file, field_names)
+    for field_name in field_names:
+        if not config.has_option('FIELD_TYPE', field_name):
+            config.set('FIELD_TYPE', field_name, 'string')  # 默认添加为string类型
 
-def BUILD_FIELD(csv_file='input.csv', config_file='feishu-field.ini'):
     # 决定是否将请求体写入配置文件
     save_to_config = False
-
-    # 读取配置文件
-    config = read_config(config_file)
 
     # 创建空的记录列表
     records = []
@@ -83,7 +73,6 @@ def BUILD_FIELD_CMD():
     parser.add_argument('-i', '--input', default="input.csv", help='Input CSV file.')
     parser.add_argument('-c', '--config', default="feishu-field.ini", help='Configuration file.')
     args = parser.parse_args()
-    CREATE_FIELD(args.input, args.config)
     request_body = BUILD_FIELD(args.input, args.config)
     print(json.dumps(request_body, indent=4, ensure_ascii=False))
 

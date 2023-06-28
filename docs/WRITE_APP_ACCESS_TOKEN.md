@@ -2,6 +2,8 @@
 
 该程序 `WRITE_APP_ACCESS_TOKEN.py` 是使用 Python 语言编写的，通过调用 `GET_APP_ACCESS_TOKEN` 函数获取应用访问令牌，并将其写入配置文件中。
 
+参考官方API文档 [自建应用获取 app_access_token](https://open.feishu.cn/document/server-docs/authentication-management/access-token/app_access_token_internal)
+
 ## 目录
 
 - [设计思路](#设计思路)

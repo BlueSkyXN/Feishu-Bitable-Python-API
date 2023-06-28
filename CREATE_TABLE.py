@@ -1,53 +1,53 @@
 import requests
-import configparser
 import json
+import configparser
 from datetime import datetime
 import os
 
-def get_config(file, section, key):
+def CREATE_TABLE(user_access_token=None, app_token=None, table_name=None, default_view_name='默认的表格视图', fields=None, config_file='feishu-config.ini', fields_file='feishu-field.ini'):
+    if config_file is None:
+        config_file = 'feishu-config.ini'
+
+    if fields_file is None:
+        fields_file = 'feishu-field.ini'
+
+    # 读取配置文件
     config = configparser.ConfigParser()
-    config.read(file)
-    return config.get(section, key)
+    config.read(config_file, encoding='utf-8')
 
-def get_fields(file):
-    if not os.path.exists(file):
-        return [
-            {
-                "field_name": "KEY",
-                "type": 1
-            },
-            {
-                "field_name": "多行文本",
-                "type": 1
-            }
-        ]
-    config = configparser.ConfigParser()
-    config.read(file)
-    fields = []
-    for section in config.sections():
-        field = {}
-        for key, val in config.items(section):
-            field[key] = val
-        fields.append(field)
-    return fields
+    # 仅在未提供输入参数时从配置文件中读取
+    if user_access_token is None:
+        user_access_token = config.get('TOKEN', 'user_access_token')
+    if app_token is None:
+        app_token = config.get('TOKEN', 'app_token')
 
-def write_fields(file, fields):
-    config = configparser.ConfigParser()
-    for i, field in enumerate(fields):
-        config.add_section(f'Field{i}')
-        for key, val in field.items():
-            config.set(f'Field{i}', key, val)
-    with open(file, 'w') as configfile:
-        config.write(configfile)
-
-def get_default_table_name():
-    return '新建数据表 ' + datetime.now().strftime('%m%d')
-
-def create_table(user_access_token, app_token, table_name=None, default_view_name='默认的表格视图', fields=None):
+    # 设置默认表格名称
     if table_name is None:
-        table_name = get_default_table_name()
+        table_name = '新建数据表 ' + datetime.now().strftime('%m%d')
+
+    # 获取字段信息
     if fields is None:
-        fields = get_fields('feishu-field.ini')
+        if not os.path.exists(fields_file):
+            fields = [
+                {
+                    "field_name": "KEY",
+                    "type": 1
+                },
+                {
+                    "field_name": "多行文本",
+                    "type": 1
+                }
+            ]
+        else:
+            fields = []
+            fields_config = configparser.ConfigParser()
+            fields_config.read(fields_file)
+            for section in fields_config.sections():
+                field = {}
+                for key, val in fields_config.items(section):
+                    field[key] = val
+                fields.append(field)
+
     headers = {
         'Authorization': f'Bearer {user_access_token}',
         'Content-Type': 'application/json; charset=utf-8'
@@ -61,11 +61,3 @@ def create_table(user_access_token, app_token, table_name=None, default_view_nam
     }
     response = requests.post(f'https://open.feishu.cn/open-apis/bitable/v1/apps/{app_token}/tables', headers=headers, data=json.dumps(data))
     return response.json()
-
-# 使用示例
-user_access_token = get_config('feishu-config.ini', 'TOKEN', 'user_access_token')
-app_token = get_config('feishu-config.ini', 'TOKEN', 'app_token')
-fields = [{'field_name': '多行文本', 'type': '1'}]
-write_fields('feishu-field.ini', fields)
-response = create_table(user_access_token, app_token)
-print(response)

@@ -2,10 +2,12 @@ import requests
 import configparser
 import argparse
 
-def DELETE_FIELD(app_token=None, table_id=None, field_id=None):
+def DELETE_FIELD(app_token=None, table_id=None, field_id=None, config_file=None):
+    if config_file is None:
+        config_file = 'feishu-config.ini'
     # 读取配置文件
     config = configparser.ConfigParser()
-    config.read('feishu-config.ini', encoding='utf-8')
+    config.read(config_file, encoding='utf-8')
 
     # 从配置文件获取参数
     access_token = config.get('TOKEN', 'user_access_token')
@@ -42,13 +44,13 @@ def DELETE_FIELD_CMD():
 
     # 添加参数，此参数用来指定要删除的字段ID
     parser.add_argument('-f', '--field', required=True, help='字段ID')
-    parser.add_argument('-t', '--table', required=False, help='表格ID')
+    parser.add_argument('-t', '--table', required=True, help='表格ID')
+    parser.add_argument('-c', '--config', default='feishu-config.ini', help='配置文件路径')
 
     args = parser.parse_args()
 
     # 调用DELETE_FIELD函数，删除指定ID的字段
-    DELETE_FIELD(args.field, args.table)
-
+    DELETE_FIELD(args.field, args.table, config_file=args.config)
 
 if __name__ == "__main__":
     DELETE_FIELD_CMD()

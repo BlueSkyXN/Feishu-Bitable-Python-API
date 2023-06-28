@@ -3,21 +3,25 @@ import json
 import configparser
 from datetime import datetime
 import os
+import argparse
 
-def CREATE_TABLE(user_access_token=None, app_token=None, table_name=None, default_view_name='默认的表格视图', fields=None, config_file='feishu-config.ini', fields_file='feishu-field.ini'):
+def CREATE_TABLE(app_token=None, table_name=None, default_view_name=None, fields=None, config_file=None, fields_file=None):
     if config_file is None:
         config_file = 'feishu-config.ini'
 
     if fields_file is None:
         fields_file = 'feishu-field.ini'
 
+    if default_view_name is None:
+        default_view_name = '默认的表格视图'
+
     # 读取配置文件
     config = configparser.ConfigParser()
     config.read(config_file, encoding='utf-8')
 
+    user_access_token = config.get('TOKEN', 'user_access_token')
+    
     # 仅在未提供输入参数时从配置文件中读取
-    if user_access_token is None:
-        user_access_token = config.get('TOKEN', 'user_access_token')
     if app_token is None:
         app_token = config.get('TOKEN', 'app_token')
 
@@ -31,10 +35,6 @@ def CREATE_TABLE(user_access_token=None, app_token=None, table_name=None, defaul
             fields = [
                 {
                     "field_name": "KEY",
-                    "type": 1
-                },
-                {
-                    "field_name": "多行文本",
                     "type": 1
                 }
             ]
@@ -61,3 +61,37 @@ def CREATE_TABLE(user_access_token=None, app_token=None, table_name=None, defaul
     }
     response = requests.post(f'https://open.feishu.cn/open-apis/bitable/v1/apps/{app_token}/tables', headers=headers, data=json.dumps(data))
     return response.json()
+
+def CREATE_TABLE_CMD():
+    # 解析命令行参数
+    parser = argparse.ArgumentParser()
+
+    # 添加参数，此参数用来指定应用的访问令牌
+    parser.add_argument('--app_token', help='应用的访问令牌')
+
+    # 添加参数，此参数用来指定表格的名称
+    parser.add_argument('--table_name', help='表格的名称')
+
+    # 添加参数，此参数用来指定默认的表格视图名称
+    parser.add_argument('--default_view_name', help='默认的表格视图名称')
+
+    # 添加参数，此参数用来指定字段配置文件的路径
+    parser.add_argument('--fields_file', help='字段配置文件的路径')
+
+    args = parser.parse_args()
+
+    # 调用 CREATE_TABLE 函数，创建数据表
+    response = CREATE_TABLE(
+        app_token=args.app_token,
+        table_name=args.table_name,
+        default_view_name=args.default_view_name,
+        fields_file=args.fields_file
+    )
+
+    # 打印响应结果
+    print(response)
+
+
+# 主函数
+if __name__ == "__main__":
+    CREATE_TABLE_CMD()

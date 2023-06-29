@@ -2,6 +2,8 @@ from GET_APP_ACCESS_TOKEN import GET_APP_ACCESS_TOKEN
 from GET_FIELD_INFO import GET_FIELD_INFO, GET_FIELD_ID, GET_FIELD_NAME
 from GET_INFO_FROM_URL import GET_INFO_FROM_URL,GET_INFO_FROM_URL_JSON,GET_APPTOKEN_FROM_URL,GET_TABLEID_FROM_URL,GET_VIEWID_FROM_URL
 from GET_LOGIN_CODE import GET_LOGIN_CODE
+from GET_RECORD_ID import GET_RECORD_ID
+from GET_RECORD import GET_RECORD
 
 class FeishuBitableAPI:
     def __init__(self):
@@ -34,3 +36,11 @@ class FeishuBitableAPI:
     #GET_LOGIN_CODE
     def GET_LOGIN_CODE(self, redirect_uri=None, app_id=None, config_file=None):
         return GET_LOGIN_CODE(redirect_uri, app_id, config_file)
+    
+    #GET_RECORD_ID
+    def GET_RECORD_ID(field_value, field_name=None, config_file=None):
+        return GET_RECORD_ID(field_value, field_name, config_file)
+    
+    #GET_RECORD
+    def GET_RECORD(app_token=None, table_id=None, record_id=None, config_file=None):
+        return GET_RECORD(app_token, table_id, record_id, config_file)

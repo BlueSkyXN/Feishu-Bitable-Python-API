@@ -130,5 +130,35 @@ class FeishuBitableAPI:
         return WRITE_TABLE_ID(name, app_token, user_access_token, page_size, page_token, config_file)
     
     #WRITE_VIEW_ID
-    def WRITE_VIEW_ID(view_name, app_token=None, user_access_token=None, page_size=None, page_token=None, config_file=None):
+    def WRITE_VIEW_ID(self, view_name, app_token=None, user_access_token=None, page_size=None, page_token=None, config_file=None):
         return WRITE_VIEW_ID(view_name, app_token, user_access_token, page_size, page_token, config_file)
+   
+    #CREATE_FIELD
+    def CREATE_FIELD(self, field_name, field_type=None, app_token=None, table_id=None, config_file=None):
+        return CREATE_FIELD(field_name, field_type, app_token, table_id, config_file)
+    
+    #CREATE_TABLE
+    def CREATE_TABLE(self, app_token=None, table_name=None, default_view_name=None, fields=None, config_file=None, fields_file=None):
+        return CREATE_TABLE(app_token, table_name, default_view_name, fields, config_file, fields_file)
+    
+    #CHECK_FIELD_EXIST
+    def CHECK_FIELD_EXIST(self, app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, csv_file=None, config_file=None):
+        return CHECK_FIELD_EXIST(app_token, table_id, view_id, page_token, page_size, csv_file, config_file)
+    
+    #DELETE_FIELDS
+    def DELETE_FIELD(self, app_token=None, table_id=None, field_id=None, config_file=None):
+        return DELETE_FIELD(app_token, table_id, field_id, config_file)
+    
+    #DELETE_RECORD
+    def DELETE_RECORD(self, app_token=None, table_id=None, record_id=None, config_file=None):
+        return DELETE_RECORD(app_token, table_id, record_id, config_file)
+    
+    #BUILD_FIELD
+    def BUILD_FIELD(self, csv_file=None, config_file=None):
+        return BUILD_FIELD(csv_file, config_file)
+
+
+
+
+
+

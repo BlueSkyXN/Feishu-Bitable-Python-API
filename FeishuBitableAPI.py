@@ -33,6 +33,8 @@ from DELETE_RECORD import DELETE_RECORD
 
 from BUILD_FIELD import BUILD_FIELD
 
+from UPDATE_FIELD import UPDATE_FIELD
+
 class FeishuBitableAPI:
     def __init__(self):
         pass
@@ -157,8 +159,6 @@ class FeishuBitableAPI:
     def BUILD_FIELD(self, csv_file=None, config_file=None):
         return BUILD_FIELD(csv_file, config_file)
 
-
-
-
-
-
+    #UPDATE_FIELD
+    def UPDATE_FIELD(self, app_token=None, table_id=None, field_id=None, field_name=None, field_type=None, config_file=None):
+        return UPDATE_FIELD(app_token, table_id, field_id, field_name, field_type, config_file)

@@ -1,53 +1,14 @@
-from GET_INFO_FROM_URL import GET_INFO_FROM_URL, GET_INFO_FROM_URL_JSON, GET_APPTOKEN_FROM_URL, GET_TABLEID_FROM_URL, GET_VIEWID_FROM_URL
+from FeishuBitableAPI import FeishuBitableAPI
 
-# 测试 GET_INFO_FROM_URL 函数
-def test_GET_INFO_FROM_URL():
-    url = "https://example.com/base/VwGhbo65BaYLaOsSz1nciWc5ncb?table=tblzDsYuQkXfoy9e&view=vewAgGXuqf"
-    info = GET_INFO_FROM_URL(url)
-    print("GET_INFO_FROM_URL:")
-    print(f"URL: {url}")
-    print(f"Info: {info}")
-    print()
+# 创建 FeishuBitableAPI 类的实例
+api = FeishuBitableAPI()
 
-# 测试 GET_INFO_FROM_URL_JSON 函数
-def test_GET_INFO_FROM_URL_JSON():
-    url = "https://example.com/base/VwGhbo65BaYLaOsSz1nciWc5ncb?table=tblzDsYuQkXfoy9e&view=vewAgGXuqf"
-    json_info = GET_INFO_FROM_URL_JSON(url)
-    print("GET_INFO_FROM_URL_JSON:")
-    print(f"URL: {url}")
-    print(f"JSON Info: {json_info}")
-    print()
+# 调用类的方法进行测试
+app_token = api.GET_APP_ACCESS_TOKEN(app_id="your_app_id", app_secret="your_app_secret", config_file="your_config_file.ini")
+table_info = api.GET_FIELD_INFO(field_name="your_field_name", app_token="your_app_token", table_id="your_table_id")
+# 其他方法的调用...
 
-# 测试 GET_APPTOKEN_FROM_URL 函数
-def test_GET_APPTOKEN_FROM_URL():
-    url = "https://example.com/base/VwGhbo65BaYLaOsSz1nciWc5ncb?table=tblzDsYuQkXfoy9e&view=vewAgGXuqf"
-    app_token = GET_APPTOKEN_FROM_URL(url)
-    print("GET_APPTOKEN_FROM_URL:")
-    print(f"URL: {url}")
-    print(f"App Token: {app_token}")
-    print()
-
-# 测试 GET_TABLEID_FROM_URL 函数
-def test_GET_TABLEID_FROM_URL():
-    url = "https://example.com/base/VwGhbo65BaYLaOsSz1nciWc5ncb?table=tblzDsYuQkXfoy9e&view=vewAgGXuqf"
-    table_id = GET_TABLEID_FROM_URL(url)
-    print("GET_TABLEID_FROM_URL:")
-    print(f"URL: {url}")
-    print(f"Table ID: {table_id}")
-    print()
-
-# 测试 GET_VIEWID_FROM_URL 函数
-def test_GET_VIEWID_FROM_URL():
-    url = "https://example.com/base/VwGhbo65BaYLaOsSz1nciWc5ncb?table=tblzDsYuQkXfoy9e&view=vewAgGXuqf"
-    view_id = GET_VIEWID_FROM_URL(url)
-    print("GET_VIEWID_FROM_URL:")
-    print(f"URL: {url}")
-    print(f"View ID: {view_id}")
-    print()
-
-# 执行测试函数
-test_GET_INFO_FROM_URL()
-test_GET_INFO_FROM_URL_JSON()
-test_GET_APPTOKEN_FROM_URL()
-test_GET_TABLEID_FROM_URL()
-test_GET_VIEWID_FROM_URL()
+# 打印测试结果或进行其他操作
+print("App Token:", app_token)
+print("Table Info:", table_info)
+# 其他结果的打印或操作...

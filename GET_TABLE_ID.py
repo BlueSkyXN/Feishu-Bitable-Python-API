@@ -1,9 +1,26 @@
+import configparser
 import argparse
 from LIST_TABLES import LIST_TABLES
 
 # 检索字段
 # 此函数用于通过给定的名称获取表的ID
 def GET_TABLE_ID(name="数据表", app_token=None, user_access_token=None, page_size=None, page_token=None, config_file=None):
+    if config_file is None:
+        config_file = 'feishu-config.ini'
+
+    # 读取配置文件
+    
+    config = configparser.ConfigParser()
+    config.read(config_file, encoding='utf-8')
+
+    # 如果参数为空，则使用配置文件中的默认值
+    if not app_token:
+        app_token = config.get('TOKEN', 'app_token')
+    if not table_id:
+        table_id = config.get('ID', 'table_id')
+    if not record_id:
+        record_id = config.get('ID', 'record_id')
+
     response = LIST_TABLES(app_token, user_access_token, page_size, page_token, config_file)
 
     # 在返回的所有数据表信息中，寻找名称匹配的数据表

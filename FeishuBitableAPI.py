@@ -4,6 +4,15 @@ from GET_INFO_FROM_URL import GET_INFO_FROM_URL,GET_INFO_FROM_URL_JSON,GET_APPTO
 from GET_LOGIN_CODE import GET_LOGIN_CODE
 from GET_RECORD_ID import GET_RECORD_ID
 from GET_RECORD import GET_RECORD
+from GET_TABLE_ID import GET_TABLE_ID
+from GET_USER_ACCESS_TOKEN import GET_USER_ACCESS_TOKEN
+from GET_VIEW_ID import GET_VIEW_ID
+
+
+from LIST_FIELDS import LIST_FIELDS
+
+
+
 
 class FeishuBitableAPI:
     def __init__(self):
@@ -38,9 +47,29 @@ class FeishuBitableAPI:
         return GET_LOGIN_CODE(redirect_uri, app_id, config_file)
     
     #GET_RECORD_ID
-    def GET_RECORD_ID(field_value, field_name=None, config_file=None):
+    def GET_RECORD_ID(self, field_value, field_name=None, config_file=None):
         return GET_RECORD_ID(field_value, field_name, config_file)
     
     #GET_RECORD
-    def GET_RECORD(app_token=None, table_id=None, record_id=None, config_file=None):
+    def GET_RECORD(self, app_token=None, table_id=None, record_id=None, config_file=None):
         return GET_RECORD(app_token, table_id, record_id, config_file)
+    
+    #GET_TABLE_ID
+    def GET_TABLE_ID(self, name="数据表", app_token=None, user_access_token=None, page_size=None, page_token=None, config_file=None):
+        return GET_TABLE_ID(name, app_token, user_access_token, page_size, page_token, config_file)
+    
+    #GET_USER_ACCESS_TOKEN
+    def GET_USER_ACCESS_TOKEN(self, login_code=None, app_access_token=None, config_file=None):
+        return GET_USER_ACCESS_TOKEN(login_code, app_access_token, config_file)
+    
+    #GET_VIEW_ID
+    def GET_VIEW_ID(self, view_name="默认视图", app_token=None, user_access_token=None, page_size=None, page_token=None, config_file=None):
+        return GET_VIEW_ID(view_name, app_token, user_access_token, page_size, page_token, config_file)
+    
+    #LIST_FIELDS
+    def LIST_FIELDS(self, app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, config_file=None):
+        return LIST_FIELDS(app_token, table_id, view_id, page_token, page_size, config_file)
+
+    
+
+

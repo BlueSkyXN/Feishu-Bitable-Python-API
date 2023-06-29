@@ -8,11 +8,30 @@ from GET_TABLE_ID import GET_TABLE_ID
 from GET_USER_ACCESS_TOKEN import GET_USER_ACCESS_TOKEN
 from GET_VIEW_ID import GET_VIEW_ID
 
-
 from LIST_FIELDS import LIST_FIELDS
+from LIST_RECORDS import LIST_RECORDS
+from LIST_TABLES import LIST_TABLES
+from LIST_VIEWS import LIST_VIEWS
 
+from REFRESH_USER_ACCESS_TOKEN import REFRESH_USER_ACCESS_TOKEN
 
+from WRITE_APP_ACCESS_TOKEN import WRITE_APP_ACCESS_TOKEN
+from WRITE_FIELD_INFO import WRITE_FIELD_INFO
+from WRITE_INFO_FROM_URL import WRITE_INFO_FROM_URL
+from WRITE_LOGIN_CODE import WRITE_LOGIN_CODE
+from WRITE_RECORD_ID import WRITE_RECORD_ID
+from WRITE_TABLE_ID import WRITE_TABLE_ID
+from WRITE_VIEW_ID import WRITE_VIEW_ID
 
+from CREATE_FIELD import CREATE_FIELD
+from CREATE_TABLE import CREATE_TABLE
+
+from CHECK_FIELD_EXIST import CHECK_FIELD_EXIST
+
+from DELETE_FIELDS import DELETE_FIELD
+from DELETE_RECORD import DELETE_RECORD
+
+from BUILD_FIELD import BUILD_FIELD
 
 class FeishuBitableAPI:
     def __init__(self):
@@ -70,6 +89,46 @@ class FeishuBitableAPI:
     def LIST_FIELDS(self, app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, config_file=None):
         return LIST_FIELDS(app_token, table_id, view_id, page_token, page_size, config_file)
 
+    #LIST_RECORDS
+    def LIST_RECORDS(self, app_token=None, table_id=None, page_token=None, page_size=None, config_file=None):
+        return LIST_RECORDS(app_token, table_id, page_token, page_size, config_file)
     
-
-
+    #LIST_TABLES
+    def LIST_TABLES(self, app_token=None, user_access_token=None, page_size=None, page_token=None, config_file=None):
+        return LIST_TABLES(app_token, user_access_token, page_size, page_token, config_file)
+    
+    #LIST_VIEWS
+    def LIST_VIEWS(self, app_token=None, user_access_token=None, page_size=None, page_token=None, table_id=None, config_file=None):
+        return LIST_VIEWS(app_token, user_access_token, page_size, page_token, table_id, config_file)
+    
+    #REFRESH_USER_ACCESS_TOKEN
+    def REFRESH_USER_ACCESS_TOKEN(self, app_access_token=None, refresh_token=None, config_file=None):
+        return REFRESH_USER_ACCESS_TOKEN(app_access_token, refresh_token, config_file)
+    
+    #WRITE_APP_ACCESS_TOKEN
+    def WRITE_APP_ACCESS_TOKEN(self, app_id=None, app_secret=None, config_file=None):
+        return WRITE_APP_ACCESS_TOKEN(app_id, app_secret, config_file)
+    
+    #WRITE_FIELD_INFO
+    def WRITE_FIELD_INFO(self, field_name=None, field_id=None, app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, config_file=None):
+        return WRITE_FIELD_INFO(field_name, field_id, app_token, table_id, view_id, page_token, page_size, config_file)
+    
+    #WRITE_INFO_FROM_URL
+    def WRITE_INFO_FROM_URL(self, url, config_file="feishu-config.ini"):
+        return WRITE_INFO_FROM_URL(url, config_file)
+    
+    #WRITE_LOGIN_CODE
+    def WRITE_LOGIN_CODE(self, redirect_uri=None, app_id=None, config_file=None):
+        return WRITE_LOGIN_CODE(redirect_uri, app_id, config_file)
+    
+    #WRITE_RECORD_ID
+    def WRITE_RECORD_ID(self, value, field_name=None, config_file=None):
+        return WRITE_RECORD_ID(value, field_name, config_file)
+    
+    #WRITE_TABLE_ID
+    def WRITE_TABLE_ID(self, name, app_token=None, user_access_token=None, page_size=None, page_token=None, config_file=None):
+        return WRITE_TABLE_ID(name, app_token, user_access_token, page_size, page_token, config_file)
+    
+    #WRITE_VIEW_ID
+    def WRITE_VIEW_ID(view_name, app_token=None, user_access_token=None, page_size=None, page_token=None, config_file=None):
+        return WRITE_VIEW_ID(view_name, app_token, user_access_token, page_size, page_token, config_file)

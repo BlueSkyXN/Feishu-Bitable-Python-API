@@ -33,7 +33,6 @@ def WRITE_RECORD_ID(value, field_name=None, config_file=None):
     print(f"成功写入record_id: {record_id} 到配置文件 {config_file}")
 
 def WRITE_RECORD_ID_CMD():
-    import argparse
     # 解析命令行参数
     parser = argparse.ArgumentParser()
     # 添加第一个参数，此参数用来指定要查询的字段值

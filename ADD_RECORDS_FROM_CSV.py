@@ -1,19 +1,39 @@
 import requests
 import configparser
 import json
-import BUILD_FIELD
+from BUILD_FIELD import BUILD_FIELD
 from CHECK_FIELD_EXIST import CHECK_FIELD_EXIST
 
-def ADD_RECORDS_FROM_CSV():
+def ADD_RECORDS_FROM_CSV(app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, csv_file=None, config_file=None, field_file=None):
+    if config_file is None:
+        config_file = 'feishu-config.ini'
+    if field_file is None:
+        field_file = 'feishu-field.ini'
+
     # 读取配置文件
     config = configparser.ConfigParser()
-    config.read('feishu-config.ini', encoding='utf-8')
+    config.read(config_file, encoding='utf-8')
+
+    if csv_file is None:
+        csv_file = 'input.csv'
 
     # 提取tokens和app_token
     user_access_token = config.get('TOKEN', 'user_access_token')
-    app_token = config.get('TOKEN', 'app_token')
-    table_id = config.get('ID', 'table_id')
-    csv_file_path = config.get('FILE_PATH', 'csv_file_path')
+
+    # 仅在未提供输入参数时从配置文件中读取
+    if app_token is None:
+        app_token = config.get('TOKEN', 'app_token')
+    if table_id is None:
+        table_id = config.get('ID', 'table_id')
+    if not csv_file:
+        csv_file = config.get('FILE_PATH', 'csv_file_path', fallback='input.csv')
+    if view_id is None:
+        view_id = config.get('ID', 'view_id')
+    if not page_token:
+        page_token = config.get('ADD_RECORDS', 'page_token', fallback=None)
+    if not page_size:
+        page_size = config.get('ADD_RECORDS', 'page_size', fallback=100)
+
 
     # 设置请求头
     headers = {
@@ -22,7 +42,8 @@ def ADD_RECORDS_FROM_CSV():
     }
 
     # 调用从BUILD_FIELD.py导入的函数来构建请求体
-    record_dict = BUILD_FIELD.BUILD_FIELD(csv_file_path, 'feishu-field.ini')
+    record_dict = BUILD_FIELD(csv_file, field_file)
+
     all_records = record_dict.get('records', [])
 
     # 检查记录数量，如果超过450则开始分片处理
@@ -50,7 +71,8 @@ def ADD_RECORDS_FROM_CSV():
                 # 如果响应中包含 "FieldNameNotFound" 错误，尝试修复并重试
                 if response_json.get("code") == 1254045:
                     print("检测到FieldNameNotFound错误，尝试创建不存在的字段...")
-                    CHECK_FIELD_EXIST()
+
+                    CHECK_FIELD_EXIST(app_token=app_token, table_id=table_id, view_id=view_id, page_token=page_token, page_size=page_size, csv_file=csv_file, config_file=config_file)
 
                     print("重试添加记录...")
                     response = requests.post(url, headers=headers, json=batch_request_body)
@@ -65,10 +87,11 @@ def ADD_RECORDS_FROM_CSV():
             print(f"Error in creating table records. Response status code: {response.status_code}")
             response.raise_for_status()
 
-    # 我假设你只希望保存最后一批次的请求体和响应体
     ENABLE_ADD_RECORDS = False
     
     if ENABLE_ADD_RECORDS:
+        if field_file is None:
+           field_file = 'feishu-field.ini'
         # 更新field配置文件
         field_config = configparser.ConfigParser()
         field_config.read('feishu-field.ini', encoding='utf-8')

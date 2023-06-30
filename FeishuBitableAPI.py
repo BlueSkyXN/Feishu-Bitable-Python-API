@@ -36,6 +36,9 @@ from BUILD_FIELD import BUILD_FIELD
 from UPDATE_FIELD import UPDATE_FIELD
 from UPDATE_RECORD import UPDATE_RECORD
 
+from ADD_RECORDS_FROM_CSV import ADD_RECORDS_FROM_CSV
+
+
 class FeishuBitableAPI:
     def __init__(self):
         pass
@@ -167,3 +170,7 @@ class FeishuBitableAPI:
     #UPDATE_RECORD
     def UPDATE_RECORD(self, app_token=None, table_id=None, record_id=None, fields=None, config_file=None):
         return UPDATE_RECORD(app_token, table_id, record_id, fields, config_file)
+    
+    #ADD_RECORDS_FROM_CSV
+    def ADD_RECORDS_FROM_CSV(self, app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, csv_file=None, config_file=None, field_file=None):
+        return ADD_RECORDS_FROM_CSV(app_token, table_id, view_id, page_token, page_size, csv_file, config_file, field_file)

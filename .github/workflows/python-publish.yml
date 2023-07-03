@@ -52,6 +52,7 @@ jobs:
         find FeishuBitableAPI -name "*.py" -exec sed -i 's/from CREATE_FIELD/from .CREATE_FIELD/g' {} \;
         find FeishuBitableAPI -name "*.py" -exec sed -i 's/from CREATE_TABLE/from .CREATE_TABLE/g' {} \;
         find FeishuBitableAPI -name "*.py" -exec sed -i 's/from CHECK_FIELD_EXIST/from .CHECK_FIELD_EXIST/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from CHECK_FIELD_EXIST_SQL/from .CHECK_FIELD_EXIST_SQL/g' {} \;
         find FeishuBitableAPI -name "*.py" -exec sed -i 's/from DELETE_FIELDS/from .DELETE_FIELDS/g' {} \;
         find FeishuBitableAPI -name "*.py" -exec sed -i 's/from DELETE_RECORD/from .DELETE_RECORD/g' {} \;
         find FeishuBitableAPI -name "*.py" -exec sed -i 's/from BUILD_FIELD/from .BUILD_FIELD/g' {} \;

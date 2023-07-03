@@ -1,4 +1,3 @@
-import requests
 import configparser
 import argparse
 from DELETE_FIELDS import DELETE_FIELD

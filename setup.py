@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='FeishuBitableAPI',
-    version='3.0.1',
+    version='3.0.2',
     packages=find_packages(),
     url='https://github.com/BlueSkyXN/Feishu-Bitable-Python-API',
     author='BlueSkyXN',
@@ -19,5 +19,6 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
     ],
 )

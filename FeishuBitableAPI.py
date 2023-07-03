@@ -43,6 +43,11 @@ class FeishuBitableAPI:
     def __init__(self):
         pass
 
+    # 调用 ping 函数进行验证
+    def ping():
+        print("pong")
+        return "pong"
+
     #GET_APP_ACCESS_TOKEN
     def GET_APP_ACCESS_TOKEN(self, app_id=None, app_secret=None, config_file=None):
         return GET_APP_ACCESS_TOKEN(app_id, app_secret, config_file)

@@ -26,6 +26,39 @@ jobs:
       run: |
         mkdir FeishuBitableAPI
         cp *.py FeishuBitableAPI/
+    - name: Modify import statements
+      run: |
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from GET_APP_ACCESS_TOKEN import GET_APP_ACCESS_TOKEN/from .GET_APP_ACCESS_TOKEN import GET_APP_ACCESS_TOKEN/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from GET_FIELD_INFO import GET_FIELD_INFO, GET_FIELD_ID, GET_FIELD_NAME/from .GET_FIELD_INFO import GET_FIELD_INFO, GET_FIELD_ID, GET_FIELD_NAME/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from GET_INFO_FROM_URL import GET_INFO_FROM_URL,GET_INFO_FROM_URL_JSON,GET_APPTOKEN_FROM_URL,GET_TABLEID_FROM_URL,GET_VIEWID_FROM_URL/from .GET_INFO_FROM_URL import GET_INFO_FROM_URL, GET_INFO_FROM_URL_JSON, GET_APPTOKEN_FROM_URL, GET_TABLEID_FROM_URL, GET_VIEWID_FROM_URL/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from GET_LOGIN_CODE import GET_LOGIN_CODE/from .GET_LOGIN_CODE import GET_LOGIN_CODE/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from GET_RECORD_ID import GET_RECORD_ID/from .GET_RECORD_ID import GET_RECORD_ID/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from GET_RECORD import GET_RECORD/from .GET_RECORD import GET_RECORD/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from GET_TABLE_ID import GET_TABLE_ID/from .GET_TABLE_ID import GET_TABLE_ID/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from GET_USER_ACCESS_TOKEN import GET_USER_ACCESS_TOKEN/from .GET_USER_ACCESS_TOKEN import GET_USER_ACCESS_TOKEN/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from GET_VIEW_ID import GET_VIEW_ID/from .GET_VIEW_ID import GET_VIEW_ID/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from LIST_FIELDS import LIST_FIELDS/from .LIST_FIELDS import LIST_FIELDS/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from LIST_RECORDS import LIST_RECORDS/from .LIST_RECORDS import LIST_RECORDS/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from LIST_TABLES import LIST_TABLES/from .LIST_TABLES import LIST_TABLES/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from LIST_VIEWS import LIST_VIEWS/from .LIST_VIEWS import LIST_VIEWS/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from REFRESH_USER_ACCESS_TOKEN import REFRESH_USER_ACCESS_TOKEN/from .REFRESH_USER_ACCESS_TOKEN import REFRESH_USER_ACCESS_TOKEN/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from WRITE_APP_ACCESS_TOKEN import WRITE_APP_ACCESS_TOKEN/from .WRITE_APP_ACCESS_TOKEN import WRITE_APP_ACCESS_TOKEN/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from WRITE_FIELD_INFO import WRITE_FIELD_INFO/from .WRITE_FIELD_INFO import WRITE_FIELD_INFO/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from WRITE_INFO_FROM_URL import WRITE_INFO_FROM_URL/from .WRITE_INFO_FROM_URL import WRITE_INFO_FROM_URL/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from WRITE_LOGIN_CODE import WRITE_LOGIN_CODE/from .WRITE_LOGIN_CODE import WRITE_LOGIN_CODE/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from WRITE_RECORD_ID import WRITE_RECORD_ID/from .WRITE_RECORD_ID import WRITE_RECORD_ID/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from WRITE_TABLE_ID import WRITE_TABLE_ID/from .WRITE_TABLE_ID import WRITE_TABLE_ID/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from WRITE_VIEW_ID import WRITE_VIEW_ID/from .WRITE_VIEW_ID import WRITE_VIEW_ID/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from CREATE_FIELD import CREATE_FIELD/from .CREATE_FIELD import CREATE_FIELD/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from CREATE_TABLE import CREATE_TABLE/from .CREATE_TABLE import CREATE_TABLE/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from CHECK_FIELD_EXIST import CHECK_FIELD_EXIST/from .CHECK_FIELD_EXIST import CHECK_FIELD_EXIST/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from DELETE_FIELDS import DELETE_FIELD/from .DELETE_FIELDS import DELETE_FIELD/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from DELETE_RECORD import DELETE_RECORD/from .DELETE_RECORD import DELETE_RECORD/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from BUILD_FIELD import BUILD_FIELD/from .BUILD_FIELD import BUILD_FIELD/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from UPDATE_FIELD import UPDATE_FIELD/from .UPDATE_FIELD import UPDATE_FIELD/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from UPDATE_RECORD import UPDATE_RECORD/from .UPDATE_RECORD import UPDATE_RECORD/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from ADD_RECORDS_FROM_CSV import ADD_RECORDS_FROM_CSV/from .ADD_RECORDS_FROM_CSV import ADD_RECORDS_FROM_CSV/g' {} \;
+
     - name: Build package
       run: python -m build
     - name: Publish package

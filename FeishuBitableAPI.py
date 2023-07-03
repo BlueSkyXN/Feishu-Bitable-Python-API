@@ -44,7 +44,7 @@ class FeishuBitableAPI:
         pass
 
     # 调用 ping 函数进行验证
-    def ping():
+    def ping(self):
         print("pong")
         return "pong"
 

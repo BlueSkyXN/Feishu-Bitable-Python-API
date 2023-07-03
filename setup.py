@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='FeishuBitableAPI',
-    version='3.0.5',
+    version='3.1.0',
     #packages=find_packages(),
     py_modules=[
     '__init__',

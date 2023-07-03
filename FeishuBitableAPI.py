@@ -27,6 +27,7 @@ from CREATE_FIELD import CREATE_FIELD
 from CREATE_TABLE import CREATE_TABLE
 
 from CHECK_FIELD_EXIST import CHECK_FIELD_EXIST
+from CHECK_FIELD_EXIST_SQL import CHECK_FIELD_EXIST_SQL
 
 from DELETE_FIELDS import DELETE_FIELD
 from DELETE_RECORD import DELETE_RECORD
@@ -155,7 +156,13 @@ class FeishuBitableAPI:
     #CHECK_FIELD_EXIST
     def CHECK_FIELD_EXIST(self, app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, csv_file=None, config_file=None):
         return CHECK_FIELD_EXIST(app_token, table_id, view_id, page_token, page_size, csv_file, config_file)
+    def CHECK_FIELD_EXIST_CSV(self, app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, csv_file=None, config_file=None):
+        return CHECK_FIELD_EXIST(app_token, table_id, view_id, page_token, page_size, csv_file, config_file)
     
+    #CHECK_FIELD_EXIST_SQL
+    def CHECK_FIELD_EXIST_SQL(self, app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, config_file=None):
+        return CHECK_FIELD_EXIST_SQL(app_token, table_id, view_id, page_token, page_size, config_file)
+
     #DELETE_FIELDS
     def DELETE_FIELD(self, app_token=None, table_id=None, field_id=None, config_file=None):
         return DELETE_FIELD(app_token, table_id, field_id, config_file)

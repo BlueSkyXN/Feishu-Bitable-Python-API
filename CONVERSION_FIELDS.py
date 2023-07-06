@@ -23,6 +23,8 @@ def human_to_machine(app_token=None, table_id=None, view_id=None, page_token=Non
     if not field_name:
         field_name = config.get('LIST_FIELDS', 'field_name')
 
+    fields_map = dict(config.items('FIELD_MAP'))
+
     # 获取当前的字段
     current_fields = LIST_FIELDS(app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, config_file=None)
 
@@ -35,7 +37,7 @@ def human_to_machine(app_token=None, table_id=None, view_id=None, page_token=Non
 
 
 def machine_to_human(app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, config_file=None):
-    
+
     if config_file is None:
         config_file = 'feishu-config.ini'
 
@@ -52,7 +54,9 @@ def machine_to_human(app_token=None, table_id=None, view_id=None, page_token=Non
         field_id = config.get('ID', 'field_id')
     if not field_name:
         field_name = config.get('LIST_FIELDS', 'field_name')
-
+        
+    fields_map = dict(config.items('FIELD_MAP'))
+    
     # 获取当前的字段
     current_fields = LIST_FIELDS(app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, config_file=None)
 

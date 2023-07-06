@@ -18,22 +18,22 @@ def human_to_machine(app_token=None, table_id=None, view_id=None, page_token=Non
         app_token = config.get('TOKEN', 'app_token')
     if not table_id:
         table_id = config.get('ID', 'table_id')
-    if not field_id:
-        field_id = config.get('ID', 'field_id')
-    if not field_name:
-        field_name = config.get('LIST_FIELDS', 'field_name')
+
+
 
     fields_map = dict(config.items('FIELD_MAP'))
 
     # 获取当前的字段
-    current_fields = LIST_FIELDS(app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, config_file=None)
+    current_fields = LIST_FIELDS(app_token=app_token, table_id=table_id, view_id=view_id, page_token=page_token, page_size=page_size, config_file=config_file)
 
     # 遍历当前的字段
     for field in current_fields['data']['items']:
         # 检查当前字段是否在映射中
         if field['field_name'] in fields_map:
+            field_id = field['field_id']  # 获取字段的ID
+            field_name = fields_map[field['field_name']]  # 获取字段的映射名称
             # 如果在，则更新字段名
-            UPDATE_FIELD(app_token, table_id, field['field_id'], fields_map[field['field_name']])
+            UPDATE_FIELD(app_token=app_token, table_id=table_id, field_id=field_id, field_name=field_name, field_type=1)
 
 
 def machine_to_human(app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, config_file=None):
@@ -50,15 +50,13 @@ def machine_to_human(app_token=None, table_id=None, view_id=None, page_token=Non
         app_token = config.get('TOKEN', 'app_token')
     if not table_id:
         table_id = config.get('ID', 'table_id')
-    if not field_id:
-        field_id = config.get('ID', 'field_id')
-    if not field_name:
-        field_name = config.get('LIST_FIELDS', 'field_name')
+    if not field_type:
+        field_type = config.getint('LIST_FIELDS', 'field_type', fallback=1)
         
     fields_map = dict(config.items('FIELD_MAP'))
 
     # 获取当前的字段
-    current_fields = LIST_FIELDS(app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, config_file=None)
+    current_fields = LIST_FIELDS(app_token=app_token, table_id=table_id, view_id=view_id, page_token=page_token, page_size=page_size, config_file=config_file)
 
     # 反转字典映射
     reversed_fields_map = {v: k for k, v in fields_map.items()}
@@ -68,10 +66,15 @@ def machine_to_human(app_token=None, table_id=None, view_id=None, page_token=Non
         # 检查当前字段是否在反转映射中
         if field['field_name'] in reversed_fields_map:
             # 如果在，则更新字段名
-            UPDATE_FIELD(app_token, table_id, field['field_id'], reversed_fields_map[field['field_name']])
+            #UPDATE_FIELD(app_token=app_token, table_id=table_id, field_id=field['field_id'], field_name=reversed_fields_map[field['field_name']], field_type=1)
+            field_id = field['field_id']  # 获取字段的ID
+            field_name = reversed_fields_map[field['field_name']] # 获取字段的映射名称
+            UPDATE_FIELD(app_token=app_token, table_id=table_id, field_id=field_id, field_name=field_name, field_type=1)
 
 def CONVERSION_FIELDS_CMD():
+
     parser = argparse.ArgumentParser(description='Human-to-Machine and Machine-to-Human Field Name Conversion')
+
     parser.add_argument('-c', '--convert_to_machine', action='store_true', help='Convert human field names to machine field names')
     parser.add_argument('-b', '--convert_to_human', action='store_true', help='Convert machine field names to human field names')
     parser.add_argument('--app_token', default=None, help='App Token')

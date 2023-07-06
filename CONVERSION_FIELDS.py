@@ -20,7 +20,7 @@ def human_to_machine(app_token=None, table_id=None, view_id=None, page_token=Non
         table_id = config.get('ID', 'table_id')
 
 
-
+    field_type=1
     fields_map = dict(config.items('FIELD_MAP'))
 
     # 获取当前的字段
@@ -33,7 +33,7 @@ def human_to_machine(app_token=None, table_id=None, view_id=None, page_token=Non
             field_id = field['field_id']  # 获取字段的ID
             field_name = fields_map[field['field_name']]  # 获取字段的映射名称
             # 如果在，则更新字段名
-            UPDATE_FIELD(app_token=app_token, table_id=table_id, field_id=field_id, field_name=field_name, field_type=1)
+            UPDATE_FIELD(app_token=app_token, table_id=table_id, field_id=field_id, field_name=field_name, field_type=field_type)
 
 
 def machine_to_human(app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, config_file=None):
@@ -50,8 +50,6 @@ def machine_to_human(app_token=None, table_id=None, view_id=None, page_token=Non
         app_token = config.get('TOKEN', 'app_token')
     if not table_id:
         table_id = config.get('ID', 'table_id')
-    if not field_type:
-        field_type = config.getint('LIST_FIELDS', 'field_type', fallback=1)
         
     fields_map = dict(config.items('FIELD_MAP'))
 
@@ -61,6 +59,8 @@ def machine_to_human(app_token=None, table_id=None, view_id=None, page_token=Non
     # 反转字典映射
     reversed_fields_map = {v: k for k, v in fields_map.items()}
 
+    field_type=1
+
     # 遍历当前的字段
     for field in current_fields['data']['items']:
         # 检查当前字段是否在反转映射中
@@ -69,7 +69,7 @@ def machine_to_human(app_token=None, table_id=None, view_id=None, page_token=Non
             #UPDATE_FIELD(app_token=app_token, table_id=table_id, field_id=field['field_id'], field_name=reversed_fields_map[field['field_name']], field_type=1)
             field_id = field['field_id']  # 获取字段的ID
             field_name = reversed_fields_map[field['field_name']] # 获取字段的映射名称
-            UPDATE_FIELD(app_token=app_token, table_id=table_id, field_id=field_id, field_name=field_name, field_type=1)
+            UPDATE_FIELD(app_token=app_token, table_id=table_id, field_id=field_id, field_name=field_name, field_type=field_type)
 
 def CONVERSION_FIELDS_CMD():
 

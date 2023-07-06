@@ -1,9 +1,9 @@
-import requests
 import configparser
-import json
 import argparse
+
 from LIST_FIELDS import LIST_FIELDS
 from UPDATE_FIELD import UPDATE_FIELD
+
 def human_to_machine(app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, config_file=None):
 
     if config_file is None:
@@ -56,7 +56,7 @@ def machine_to_human(app_token=None, table_id=None, view_id=None, page_token=Non
         field_name = config.get('LIST_FIELDS', 'field_name')
         
     fields_map = dict(config.items('FIELD_MAP'))
-    
+
     # 获取当前的字段
     current_fields = LIST_FIELDS(app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, config_file=None)
 
@@ -69,3 +69,28 @@ def machine_to_human(app_token=None, table_id=None, view_id=None, page_token=Non
         if field['field_name'] in reversed_fields_map:
             # 如果在，则更新字段名
             UPDATE_FIELD(app_token, table_id, field['field_id'], reversed_fields_map[field['field_name']])
+
+def CONVERSION_FIELDS_CMD():
+    parser = argparse.ArgumentParser(description='Human-to-Machine and Machine-to-Human Field Name Conversion')
+    parser.add_argument('-c', '--convert_to_machine', action='store_true', help='Convert human field names to machine field names')
+    parser.add_argument('-b', '--convert_to_human', action='store_true', help='Convert machine field names to human field names')
+    parser.add_argument('--app_token', default=None, help='App Token')
+    parser.add_argument('--table_id', default=None, help='Table ID')
+    parser.add_argument('--view_id', default=None, help='View ID')
+    parser.add_argument('--page_token', default=None, help='Page Token')
+    parser.add_argument('--page_size', default=None, help='Page Size')
+    parser.add_argument('--config_file', default='feishu-config.ini', help='Config file path')
+
+    args = parser.parse_args()
+
+    if args.convert_to_machine:
+        human_to_machine(app_token=args.app_token, table_id=args.table_id, view_id=args.view_id,
+                         page_token=args.page_token, page_size=args.page_size, config_file=args.config_file)
+    elif args.convert_to_human:
+        machine_to_human(app_token=args.app_token, table_id=args.table_id, view_id=args.view_id,
+                         page_token=args.page_token, page_size=args.page_size, config_file=args.config_file)
+    else:
+        print("Please specify either -c or -b option for field name conversion.")
+
+if __name__ == '__main__':
+    CONVERSION_FIELDS_CMD()

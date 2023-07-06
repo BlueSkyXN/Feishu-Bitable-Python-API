@@ -59,6 +59,7 @@ jobs:
         find FeishuBitableAPI -name "*.py" -exec sed -i 's/from UPDATE_FIELD/from .UPDATE_FIELD/g' {} \;
         find FeishuBitableAPI -name "*.py" -exec sed -i 's/from UPDATE_RECORD/from .UPDATE_RECORD/g' {} \;
         find FeishuBitableAPI -name "*.py" -exec sed -i 's/from ADD_RECORDS_FROM_CSV/from .ADD_RECORDS_FROM_CSV/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from CONVERSION_FIELDS/from .CONVERSION_FIELDS/g' {} \;
 
     - name: Build package
       run: python -m build

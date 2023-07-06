@@ -4,7 +4,7 @@ import argparse
 from LIST_FIELDS import LIST_FIELDS
 from UPDATE_FIELD import UPDATE_FIELD
 
-def human_to_machine(app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, config_file=None):
+def CONVERSION_FIELDS_HUMAN_TO_MACHINE(app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, config_file=None):
 
     if config_file is None:
         config_file = 'feishu-config.ini'
@@ -30,13 +30,17 @@ def human_to_machine(app_token=None, table_id=None, view_id=None, page_token=Non
     for field in current_fields['data']['items']:
         # 检查当前字段是否在映射中
         if field['field_name'] in fields_map:
+
             field_id = field['field_id']  # 获取字段的ID
             field_name = fields_map[field['field_name']]  # 获取字段的映射名称
             # 如果在，则更新字段名
             UPDATE_FIELD(app_token=app_token, table_id=table_id, field_id=field_id, field_name=field_name, field_type=field_type)
 
+            # 打印处理后的数据
+            print(f"Field '{field['field_name']}' converted to '{field_name}'")
 
-def machine_to_human(app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, config_file=None):
+
+def CONVERSION_FIELDS_MACHINE_TO_HUMAN(app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, config_file=None):
 
     if config_file is None:
         config_file = 'feishu-config.ini'
@@ -65,11 +69,16 @@ def machine_to_human(app_token=None, table_id=None, view_id=None, page_token=Non
     for field in current_fields['data']['items']:
         # 检查当前字段是否在反转映射中
         if field['field_name'] in reversed_fields_map:
+
             # 如果在，则更新字段名
             #UPDATE_FIELD(app_token=app_token, table_id=table_id, field_id=field['field_id'], field_name=reversed_fields_map[field['field_name']], field_type=1)
             field_id = field['field_id']  # 获取字段的ID
             field_name = reversed_fields_map[field['field_name']] # 获取字段的映射名称
             UPDATE_FIELD(app_token=app_token, table_id=table_id, field_id=field_id, field_name=field_name, field_type=field_type)
+            
+            # 打印处理后的数据
+            print(f"Field '{field['field_name']}' converted to '{field_name}'")
+
 
 def CONVERSION_FIELDS_CMD():
 
@@ -87,10 +96,10 @@ def CONVERSION_FIELDS_CMD():
     args = parser.parse_args()
 
     if args.convert_to_machine:
-        human_to_machine(app_token=args.app_token, table_id=args.table_id, view_id=args.view_id,
+        CONVERSION_FIELDS_HUMAN_TO_MACHINE(app_token=args.app_token, table_id=args.table_id, view_id=args.view_id,
                          page_token=args.page_token, page_size=args.page_size, config_file=args.config_file)
     elif args.convert_to_human:
-        machine_to_human(app_token=args.app_token, table_id=args.table_id, view_id=args.view_id,
+        CONVERSION_FIELDS_MACHINE_TO_HUMAN(app_token=args.app_token, table_id=args.table_id, view_id=args.view_id,
                          page_token=args.page_token, page_size=args.page_size, config_file=args.config_file)
     else:
         print("Please specify either -c or -b option for field name conversion.")

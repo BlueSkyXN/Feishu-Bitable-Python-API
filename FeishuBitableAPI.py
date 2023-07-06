@@ -1,6 +1,6 @@
 from GET_APP_ACCESS_TOKEN import GET_APP_ACCESS_TOKEN
 from GET_FIELD_INFO import GET_FIELD_INFO, GET_FIELD_ID, GET_FIELD_NAME
-from GET_INFO_FROM_URL import GET_INFO_FROM_URL,GET_INFO_FROM_URL_JSON,GET_APPTOKEN_FROM_URL,GET_TABLEID_FROM_URL,GET_VIEWID_FROM_URL
+from GET_INFO_FROM_URL import GET_INFO_FROM_URL, GET_INFO_FROM_URL_JSON, GET_APPTOKEN_FROM_URL, GET_TABLEID_FROM_URL, GET_VIEWID_FROM_URL
 from GET_LOGIN_CODE import GET_LOGIN_CODE
 from GET_RECORD_ID import GET_RECORD_ID
 from GET_RECORD import GET_RECORD
@@ -38,6 +38,8 @@ from UPDATE_FIELD import UPDATE_FIELD
 from UPDATE_RECORD import UPDATE_RECORD
 
 from ADD_RECORDS_FROM_CSV import ADD_RECORDS_FROM_CSV
+
+from CONVERSION_FIELDS import CONVERSION_FIELDS_HUMAN_TO_MACHINE, CONVERSION_FIELDS_MACHINE_TO_HUMAN
 
 
 class FeishuBitableAPI:
@@ -186,3 +188,9 @@ class FeishuBitableAPI:
     #ADD_RECORDS_FROM_CSV
     def ADD_RECORDS_FROM_CSV(self, app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, csv_file=None, config_file=None, field_file=None):
         return ADD_RECORDS_FROM_CSV(app_token, table_id, view_id, page_token, page_size, csv_file, config_file, field_file)
+    
+    #CONVERSION_FIELDS
+    def CONVERSION_FIELDS_HUMAN_TO_MACHINE(self, app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, config_file=None):
+        return CONVERSION_FIELDS_HUMAN_TO_MACHINE(app_token, table_id, view_id, page_token, page_size, config_file)
+    def CONVERSION_FIELDS_MACHINE_TO_HUMAN(app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, config_file=None):
+        return CONVERSION_FIELDS_MACHINE_TO_HUMAN(app_token, table_id, view_id, page_token, page_size, config_file)

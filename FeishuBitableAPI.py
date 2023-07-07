@@ -192,5 +192,5 @@ class FeishuBitableAPI:
     #CONVERSION_FIELDS
     def CONVERSION_FIELDS_HUMAN_TO_MACHINE(self, app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, config_file=None):
         return CONVERSION_FIELDS_HUMAN_TO_MACHINE(app_token, table_id, view_id, page_token, page_size, config_file)
-    def CONVERSION_FIELDS_MACHINE_TO_HUMAN(app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, config_file=None):
+    def CONVERSION_FIELDS_MACHINE_TO_HUMAN(self, app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, config_file=None):
         return CONVERSION_FIELDS_MACHINE_TO_HUMAN(app_token, table_id, view_id, page_token, page_size, config_file)

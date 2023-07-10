@@ -9,20 +9,20 @@ def WRITE_TENANT_ACCESS_TOKEN(app_id=None, app_secret=None, config_file=None):
     else:
         config.read('feishu-config.ini', encoding='utf-8')  # 默认读取名为'feishu-config.ini'的配置文件
 
-    # 尝试从app_id和app_secret获取app_access_token
+    # 尝试从app_id和app_secret获取tenant_access_token
     try:
-        app_access_token = GET_TENANT_ACCESS_TOKEN(app_id, app_secret, config_file)
+        tenant_access_token = GET_TENANT_ACCESS_TOKEN(app_id, app_secret, config_file)
         # 如果提取的值不存在，将其置为空字符串
-        if not app_access_token:
-            app_access_token = ''
+        if not tenant_access_token:
+            tenant_access_token = ''
     except Exception:  # 如果在尝试过程中出现错误，返回None
         return None
 
     # 检查配置文件是否存在名为'TOKEN'的section，如果不存在则添加
     if 'TOKEN' not in config:
         config.add_section('TOKEN')
-    # 在'TOKEN' section下添加app_access_token
-    config['TOKEN']['app_access_token'] = app_access_token
+    # 在'TOKEN' section下添加tenant_access_token
+    config['TOKEN']['tenant_access_token'] = tenant_access_token
 
     # 尝试将新的配置写入到配置文件中
     try:
@@ -35,7 +35,7 @@ def WRITE_TENANT_ACCESS_TOKEN(app_id=None, app_secret=None, config_file=None):
     except Exception:  # 如果在尝试过程中出现错误，返回None
         return None
 
-    return app_access_token  # 如果一切正常，返回提取的值
+    return tenant_access_token  # 如果一切正常，返回提取的值
 
 # 主函数
 if __name__ == "__main__":

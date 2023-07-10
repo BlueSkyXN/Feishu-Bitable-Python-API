@@ -35,6 +35,7 @@ jobs:
         find FeishuBitableAPI -name "*.py" -exec sed -i 's/from GET_RECORD_ID/from .GET_RECORD_ID/g' {} \;
         find FeishuBitableAPI -name "*.py" -exec sed -i 's/from GET_RECORD/from .GET_RECORD/g' {} \;
         find FeishuBitableAPI -name "*.py" -exec sed -i 's/from GET_TABLE_ID/from .GET_TABLE_ID/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from GET_TENANT_ACCESS_TOKEN/from .GET_TENANT_ACCESS_TOKEN/g' {} \;
         find FeishuBitableAPI -name "*.py" -exec sed -i 's/from GET_USER_ACCESS_TOKEN/from .GET_USER_ACCESS_TOKEN/g' {} \;
         find FeishuBitableAPI -name "*.py" -exec sed -i 's/from GET_VIEW_ID/from .GET_VIEW_ID/g' {} \;
         find FeishuBitableAPI -name "*.py" -exec sed -i 's/from LIST_FIELDS/from .LIST_FIELDS/g' {} \;
@@ -48,6 +49,7 @@ jobs:
         find FeishuBitableAPI -name "*.py" -exec sed -i 's/from WRITE_LOGIN_CODE/from .WRITE_LOGIN_CODE/g' {} \;
         find FeishuBitableAPI -name "*.py" -exec sed -i 's/from WRITE_RECORD_ID/from .WRITE_RECORD_ID/g' {} \;
         find FeishuBitableAPI -name "*.py" -exec sed -i 's/from WRITE_TABLE_ID/from .WRITE_TABLE_ID/g' {} \;
+        find FeishuBitableAPI -name "*.py" -exec sed -i 's/from WRITE_TENANT_ACCESS_TOKEN/from .WRITE_TENANT_ACCESS_TOKEN/g' {} \;
         find FeishuBitableAPI -name "*.py" -exec sed -i 's/from WRITE_VIEW_ID/from .WRITE_VIEW_ID/g' {} \;
         find FeishuBitableAPI -name "*.py" -exec sed -i 's/from CREATE_FIELD/from .CREATE_FIELD/g' {} \;
         find FeishuBitableAPI -name "*.py" -exec sed -i 's/from CREATE_TABLE/from .CREATE_TABLE/g' {} \;

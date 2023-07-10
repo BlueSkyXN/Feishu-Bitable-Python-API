@@ -5,6 +5,7 @@ from GET_LOGIN_CODE import GET_LOGIN_CODE
 from GET_RECORD_ID import GET_RECORD_ID
 from GET_RECORD import GET_RECORD
 from GET_TABLE_ID import GET_TABLE_ID
+from GET_TENANT_ACCESS_TOKEN import GET_TENANT_ACCESS_TOKEN
 from GET_USER_ACCESS_TOKEN import GET_USER_ACCESS_TOKEN
 from GET_VIEW_ID import GET_VIEW_ID
 
@@ -21,6 +22,7 @@ from WRITE_INFO_FROM_URL import WRITE_INFO_FROM_URL
 from WRITE_LOGIN_CODE import WRITE_LOGIN_CODE
 from WRITE_RECORD_ID import WRITE_RECORD_ID
 from WRITE_TABLE_ID import WRITE_TABLE_ID
+from WRITE_TENANT_ACCESS_TOKEN import WRITE_TENANT_ACCESS_TOKEN
 from WRITE_VIEW_ID import WRITE_VIEW_ID
 
 from CREATE_FIELD import CREATE_FIELD
@@ -91,6 +93,10 @@ class FeishuBitableAPI:
     def GET_TABLE_ID(self, name="数据表", app_token=None, user_access_token=None, page_size=None, page_token=None, config_file=None):
         return GET_TABLE_ID(name, app_token, user_access_token, page_size, page_token, config_file)
     
+    #GET_TENANT_ACCESS_TOKEN
+    def GET_TENANT_ACCESS_TOKEN(self, app_id=None, app_secret=None, config_file=None):
+        return GET_TENANT_ACCESS_TOKEN(app_id, app_secret, config_file)
+    
     #GET_USER_ACCESS_TOKEN
     def GET_USER_ACCESS_TOKEN(self, login_code=None, app_access_token=None, config_file=None):
         return GET_USER_ACCESS_TOKEN(login_code, app_access_token, config_file)
@@ -142,7 +148,11 @@ class FeishuBitableAPI:
     #WRITE_TABLE_ID
     def WRITE_TABLE_ID(self, name, app_token=None, user_access_token=None, page_size=None, page_token=None, config_file=None):
         return WRITE_TABLE_ID(name, app_token, user_access_token, page_size, page_token, config_file)
-    
+
+    #WRITE_TENANT_ACCESS_TOKEN
+    def WRITE_TENANT_ACCESS_TOKEN(self, app_id=None, app_secret=None, config_file=None):
+        return WRITE_TENANT_ACCESS_TOKEN(app_id, app_secret, config_file)
+
     #WRITE_VIEW_ID
     def WRITE_VIEW_ID(self, view_name, app_token=None, user_access_token=None, page_size=None, page_token=None, config_file=None):
         return WRITE_VIEW_ID(view_name, app_token, user_access_token, page_size, page_token, config_file)

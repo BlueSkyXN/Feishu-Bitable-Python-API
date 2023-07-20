@@ -5,7 +5,6 @@ from LIST_FIELDS import LIST_FIELDS
 from UPDATE_FIELD import UPDATE_FIELD
 
 def CONVERSION_FIELDS_HUMAN_TO_MACHINE(app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, config_file=None):
-
     if config_file is None:
         config_file = 'feishu-config.ini'
 
@@ -19,28 +18,32 @@ def CONVERSION_FIELDS_HUMAN_TO_MACHINE(app_token=None, table_id=None, view_id=No
     if not table_id:
         table_id = config.get('ID', 'table_id')
 
-
-    field_type=1
+    field_type = 1
     fields_map = dict(config.items('FIELD_MAP'))
 
     # 获取当前的字段
-    current_fields = LIST_FIELDS(app_token=app_token, table_id=table_id, view_id=view_id, page_token=page_token, page_size=page_size, config_file=config_file)
+    current_fields = LIST_FIELDS(app_token=app_token, table_id=table_id, view_id=view_id, page_token=page_token,
+                                 page_size=page_size, config_file=config_file)
 
-    # 遍历当前的字段
-    for field in current_fields['data']['items']:
-        # 检查当前字段是否在映射中
-        if field['field_name'] in fields_map:
+    if 'data' in current_fields and isinstance(current_fields['data'], dict):
+        for field in current_fields['data']['items']:
+            # 检查当前字段是否在映射中
+            if field['field_name'] in fields_map:
+                field_id = field['field_id']  # 获取字段的ID
+                field_name = fields_map[field['field_name']]  # 获取字段的映射名称
+                # 如果在，则更新字段名
+                UPDATE_FIELD(app_token=app_token, table_id=table_id, field_id=field_id, field_name=field_name,
+                             field_type=field_type)
 
-            field_id = field['field_id']  # 获取字段的ID
-            field_name = fields_map[field['field_name']]  # 获取字段的映射名称
-            # 如果在，则更新字段名
-            UPDATE_FIELD(app_token=app_token, table_id=table_id, field_id=field_id, field_name=field_name, field_type=field_type)
-
-            # 打印处理后的数据
-            print(f"Field '{field['field_name']}' converted to '{field_name}'")
+                # 打印处理后的数据
+                print(f"Field '{field['field_name']}' converted to '{field_name}'")
+    else:
+        # 当没有有效数据时的处理逻辑
+        print("没有获取到有效的字段数据")
 
 
-def CONVERSION_FIELDS_MACHINE_TO_HUMAN(app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, config_file=None):
+
+def CONVERSION_FIELDS_MACHINE_TO_HUMAN_V1(app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, config_file=None):
 
     if config_file is None:
         config_file = 'feishu-config.ini'
@@ -78,6 +81,49 @@ def CONVERSION_FIELDS_MACHINE_TO_HUMAN(app_token=None, table_id=None, view_id=No
             
             # 打印处理后的数据
             print(f"Field '{field['field_name']}' converted to '{field_name}'")
+
+
+
+def CONVERSION_FIELDS_MACHINE_TO_HUMAN(app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, config_file=None):
+
+    if config_file is None:
+        config_file = 'feishu-config.ini'
+
+    # 读取配置文件
+    config = configparser.ConfigParser()
+    config.read(config_file, encoding='utf-8')
+
+    # 如果参数为空，则使用配置文件中的默认值
+    if not app_token:
+        app_token = config.get('TOKEN', 'app_token')
+    if not table_id:
+        table_id = config.get('ID', 'table_id')
+        
+    fields_map = dict(config.items('FIELD_MAP'))
+
+    # 获取当前的字段
+    current_fields = LIST_FIELDS(app_token=app_token, table_id=table_id, view_id=view_id, page_token=page_token, page_size=page_size, config_file=config_file)
+
+    # 反转字典映射
+    reversed_fields_map = {v: k for k, v in fields_map.items()}
+
+    field_type=1
+
+    if 'data' in current_fields and isinstance(current_fields['data'], dict):
+        for field in current_fields['data']['items']:
+            # 检查当前字段是否在映射中
+            if field['field_name'] in reversed_fields_map:
+                # 如果在，则更新字段名
+                #UPDATE_FIELD(app_token=app_token, table_id=table_id, field_id=field['field_id'], field_name=reversed_fields_map[field['field_name']], field_type=1)
+                field_id = field['field_id']  # 获取字段的ID
+                field_name = reversed_fields_map[field['field_name']] # 获取字段的映射名称
+                UPDATE_FIELD(app_token=app_token, table_id=table_id, field_id=field_id, field_name=field_name, field_type=field_type)
+                # 打印处理后的数据
+                print(f"Field '{field['field_name']}' converted to '{field_name}'")
+    else:
+        # 当没有有效数据时的处理逻辑
+        print("没有获取到有效的字段数据")
+
 
 
 def CONVERSION_FIELDS_CMD():

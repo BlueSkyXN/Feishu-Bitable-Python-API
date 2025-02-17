@@ -21,16 +21,14 @@
 
 整个程序的设计思路如下：
 
-1. 读取配置文件 `feishu-config.ini` 或指定的配置文件，获取用户访问令牌（user_access_token）和应用的访问令牌（app_token）。
-2. 如果未提供输入参数，则从配置文件中获取相应的值。
-3. 如果未提供表格名称，则默认生成一个带有当前日期时间戳的名称。
-4. 如果未提供默认视图名称，则默认使用 "默认的表格视图"。
-5. 如果未提供字段配置，则根据字段配置文件生成默认字段。
+1. 读取配置文件 `feishu-config.ini` 或指定的配置文件，获取访问令牌。
+2. 访问令牌既可以是用户身份的访问令牌（user_access_token）,也可以是应用身份的访问令牌（tenant_access_token）。
+3. 如果访问令牌未提供输入参数，则从配置文件中获取相应的值。优先使用应用身份的访问令牌(confing文件内的app_access_token)。
+4. 对于文件夹 token，可通过以下两种方式获取文件夹的 token：文件夹的 URL：https://sample.feishu.cn/drive/folder/fldbcO1UuPz8VwnpPx5a92abcef；调用开放平台接口获取：
+5. 如果未提供表格名称，则默认生成一个带有当前日期时间戳的名称。
 6. 构建 API 请求的 URL 和请求头。
-7. 创建新的数据表，将表格名称、默认视图名称和字段配置作为请求体的参数。
+7. 创建新的数据表，将表格名称、文件夹token作为请求体的参数。
 8. 发送请求并返回创建数据表的结果。
-
-非常抱歉，我遗漏了直接函数模式的输入参数说明。以下是修正后的文档：
 
 ## 输入参数
 
@@ -38,40 +36,31 @@
 
 该程序支持的输入参数如下：
 
-- `--app_token`：应用的访问令牌
+- `--access_token`：访问令牌
 - `--table_name`：表格的名称
-- `--default_view_name`：默认的表格视图名称
-- `--fields_file`：字段配置文件的路径
+- `--folder_token`：目标文件夹token
 
 ### 函数模式
 
-- `app_token`：应用的访问令牌
+- `access_token`：访问令牌
 - `table_name`：表格的名称，默认为带有当前日期时间戳的名称
-- `default_view_name`：默认的表格视图名称，默认为 "默认的表格视图"
-- `fields`：字段配置列表，默认根据字段配置文件生成默认字段
+- `folder_token`：目标文件夹token
 - `config_file`：配置文件路径，默认为 "feishu-config.ini"
-- `fields_file`：字段配置文件路径，默认为 "feishu-field.ini"
 
 ## 使用示例
 
-您可以按照以下方式来使用 `CREATE_TABLE.py`：
+您可以按照以下方式来使用 `CREATE_TABLE.py`:
 
 ### 直接调用
 
 ```python
 from CREATE_TABLE import CREATE_TABLE
 
-app_token = "YOUR_APP_TOKEN"  # 应用的访问令牌
+access_token = "YOUR_ACCESS_TOKEN"  # 应用的访问令牌
 table_name = "新建数据表"  # 表格的名称
-default_view_name = "默认的表格视图"  # 默认的表格视图名称
-fields = [
-    {
-        "field_name": "KEY",
-        "type": 1
-    }
-]  # 字段配置
+folder_token = "YourFolderToken" # 目标文件夹token
 
-CREATE_TABLE(app_token, table_name, default_view_name, fields)
+CREATE_TABLE(access_token, table_name, folder_token)
 ```
 
 ### 命令行使用
@@ -79,27 +68,17 @@ CREATE_TABLE(app_token, table_name, default_view_name, fields)
 在命令行中运行以下命令来创建新的数据表：
 
 ```
-python CREATE_TABLE.py --app_token YOUR_APP_TOKEN --table_name "新建数据表" --default_view_name "默认的表格视图" --fields_file /path/to/fields.ini
+python CREATE_TABLE.py --access_token YOUR_ACCESS_TOKEN --table_name "新建数据表" --folder_token "YourFolderToken" --fields_file /path/to/fields.ini
 ```
 
-请注意，在运行程序之前，确保您已替换示例代码中的 `YOUR_APP_TOKEN`、`新建数据表`、`默认的表格视图` 和 `/path/to/fields.ini` 为实际的应用的访问令牌、表格的名称、默认的表格视图名称和字段配置文件的路径。
+请注意，在运行程序之前，确保您已替换示例代码中的 `YOUR_ACCESS_TOKEN`、`folder_token`等为实际的访问令牌、表格的名称和字段配置文件的路径。
 
 ### 请求体示例
 ```json
 {
-    "table":{
-        "name":"数据表名称",
-        "default_view_name":"默认的表格视图",
-        "fields":[
-            {
-                "field_name":"多行文本",
-                "type":1
-            }
-        ]
-    }
+    "title":"sales sheet",
+    "folder_token":"fldbcO1UuPz8VwnpPx5a92abcef"
 }
-
-```
 
 ### 响应体示例
 ```json
@@ -107,11 +86,12 @@ python CREATE_TABLE.py --app_token YOUR_APP_TOKEN --table_name "新建数据表"
     "code": 0,
     "msg": "success",
     "data": {
-        "table_id": "tblDBTWm6Es84d8c",
-        "default_view_id": "vewUuKOz2R",
-        "field_id_list": [
-            "fldhr2hBEA"
-        ]
+        "spreadsheet": {
+            "title": "Sales sheet",
+            "folder_token": "fldbcO1UuPz8VwnpPx5a92abcef",
+            "url": "https://example.feishu.cn/sheets/Iow7sNNEphp3WbtnbCscPqabcef",
+            "spreadsheet_token": "Iow7sNNEphp3WbtnbCscPqabcef"
+        }
     }
 }
 ```

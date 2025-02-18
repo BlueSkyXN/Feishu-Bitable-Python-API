@@ -162,9 +162,8 @@ class FeishuBitableAPI:
         return CREATE_FIELD(field_name, field_type, app_token, table_id, config_file)
     
     #CREATE_TABLE
-    def CREATE_TABLE(self, app_token=None, table_name=None, default_view_name=None, fields=None, config_file=None, fields_file=None):
-        return CREATE_TABLE(app_token, table_name, default_view_name, fields, config_file, fields_file)
-    
+    def CREATE_TABLE(self, access_token=None, table_name=None, config_file=None, folder_token=None):
+        return CREATE_TABLE(access_token=None, table_name=None, config_file=None, folder_token=None)    
     #CHECK_FIELD_EXIST
     def CHECK_FIELD_EXIST(self, app_token=None, table_id=None, view_id=None, page_token=None, page_size=None, csv_file=None, config_file=None):
         return CHECK_FIELD_EXIST(app_token, table_id, view_id, page_token, page_size, csv_file, config_file)

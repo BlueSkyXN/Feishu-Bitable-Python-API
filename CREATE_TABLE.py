@@ -5,15 +5,9 @@ from datetime import datetime
 import os
 import argparse
 
-def CREATE_TABLE(app_token=None, table_name=None, default_view_name=None, fields=None, config_file=None, fields_file=None):
+def CREATE_TABLE(access_token=None, table_name=None, config_file=None, folder_token=None):
     if config_file is None:
         config_file = 'feishu-config.ini'
-
-    if fields_file is None:
-        fields_file = 'feishu-field.ini'
-
-    if default_view_name is None:
-        default_view_name = '默认的表格视图'
 
     # 读取配置文件
     config = configparser.ConfigParser()
@@ -21,45 +15,30 @@ def CREATE_TABLE(app_token=None, table_name=None, default_view_name=None, fields
 
     user_access_token = config.get('TOKEN', 'user_access_token')
     
-    # 仅在未提供输入参数时从配置文件中读取
-    if app_token is None:
-        app_token = config.get('TOKEN', 'app_token')
+    # 仅在未提供输入参数时从配置文件中读取. Access Token优先从App Access Token读取.
+    if access_token is None:
+       access_token = config.get('TOKEN', 'app_access_token') or config.get('TOKEN', 'user_access_token')
 
     # 设置默认表格名称
     if table_name is None:
         table_name = '新建数据表 ' + datetime.now().strftime('%m%d')
 
-    # 获取字段信息
-    if fields is None:
-        if not os.path.exists(fields_file):
-            fields = [
-                {
-                    "field_name": "KEY",
-                    "type": 1
-                }
-            ]
-        else:
-            fields = []
-            fields_config = configparser.ConfigParser()
-            fields_config.read(fields_file)
-            for section in fields_config.sections():
-                field = {}
-                for key, val in fields_config.items(section):
-                    field[key] = val
-                fields.append(field)
+    # 设置表格上传目标文件夹:
+    if folder_token is None:
+        folder_token = config.get('TABLE_CONFIG', 'default_folder')
 
     headers = {
         'Authorization': f'Bearer {user_access_token}',
         'Content-Type': 'application/json; charset=utf-8'
     }
+       
     data = {
-        'table': {
-            'name': table_name,
-            'default_view_name': default_view_name,
-            'fields': fields
-        }
-    }
-    response = requests.post(f'https://open.feishu.cn/open-apis/bitable/v1/apps/{app_token}/tables', headers=headers, data=json.dumps(data))
+        'title': table_name,
+    }; 
+    if folder_token != None: 
+        data.update({'folder_token': folder_token})
+ 
+    response = requests.post(f'https://open.feishu.cn/open-apis/sheets/v3/spreadsheets', headers=headers, data=json.dumps(data))
     return response.json()
 
 def CREATE_TABLE_CMD():
@@ -67,25 +46,21 @@ def CREATE_TABLE_CMD():
     parser = argparse.ArgumentParser()
 
     # 添加参数，此参数用来指定应用的访问令牌
-    parser.add_argument('--app_token', help='应用的访问令牌')
+    parser.add_argument('--access_token', help='表格的访问令牌')
 
     # 添加参数，此参数用来指定表格的名称
     parser.add_argument('--table_name', help='表格的名称')
-
-    # 添加参数，此参数用来指定默认的表格视图名称
-    parser.add_argument('--default_view_name', help='默认的表格视图名称')
-
-    # 添加参数，此参数用来指定字段配置文件的路径
-    parser.add_argument('--fields_file', help='字段配置文件的路径')
+    
+    # 添加参数，此参数用来指定目标文件夹token
+    parser.add_argument('--folder_token', help='目标文件夹token')
 
     args = parser.parse_args()
 
     # 调用 CREATE_TABLE 函数，创建数据表
     response = CREATE_TABLE(
-        app_token=args.app_token,
+        access_token=args.access_token,
         table_name=args.table_name,
-        default_view_name=args.default_view_name,
-        fields_file=args.fields_file
+        folder_token=args.folder_token
     )
 
     # 打印响应结果
